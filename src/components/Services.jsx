@@ -15,9 +15,10 @@ const services = [
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
         ),
-        title: "Garantía mecánica de 12 meses",
+        title: "Garantía Total Navarro (12 Meses)",
         description:
-            "12 meses de cobertura real. Revisamos cada detalle para que tu única preocupación sea conducir.",
+            "12 meses de cobertura mecánica real. Sometemos a cada coche a una revisión de 100 puntos clave para que tu única preocupación sea disfrutar del trayecto.",
+        extra: "Cobertura Nacional",
     },
     {
         icon: (
@@ -39,9 +40,9 @@ const services = [
                 <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
         ),
-        title: "Cambio de nombre incluido",
+        title: "Gestión Administrativa Completa",
         description:
-            "Nos encargamos de todo el proceso de cambio de nombre para que tú no tengas que preocuparte por nada.",
+            "Olvídate del papeleo. Nos encargamos de toda la tramitación del cambio de nombre y gestoría para que te lleves tu coche al instante y sin complicaciones.",
     },
     {
         icon: (
@@ -60,42 +61,49 @@ const services = [
                 <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
         ),
-        title: "Búsqueda a la Carta",
+        title: "Localización de Vehículos Premium",
         description:
-            "¿Buscas un modelo específico? Cuéntanos qué necesitas y lo localizamos y revisamos por ti con total transparencia.",
+            "¿Tienes un modelo específico en mente? Localizamos, revisamos y certificamos el coche de tus sueños con total transparencia y rigor técnico.",
     },
 ];
 
 export default function Services() {
     return (
         <section
-            className="py-24 bg-[#E5E7EB] border-y border-gray-100"
+            className="py-24 bg-gray-50 border-y border-gray-100"
             id="servicios"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-3xl font-bold text-[#1F2937] mb-4 tracking-tight">
-                        Es nuestro Compromiso
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-[#1F2937] mb-4 tracking-tight">
+                        Nuestra Garantía de Confianza
                     </h2>
-                    <p className="text-slate-500 text-lg">
-                        Transparencia absoluta en cada paso.
+                    <p className="text-slate-600 text-lg">
+                        Calidad certificada y transparencia mecánica en cada vehículo.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
                     {services.map((service, index) => (
                         <div
                             key={index}
-                            className="bg-white rounded-xl p-8 shadow-card border border-slate-100 hover:shadow-soft transition-all hover:-translate-y-1 group"
+                            className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
                         >
-                            <div className="w-14 h-14 bg-[#5877C6]/10 text-[#5877C6] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#5877C6] group-hover:text-white transition-colors">
+                            <div className="w-16 h-16 bg-[#004A99]/10 text-[#004A99] rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#004A99] group-hover:text-white transition-all duration-300">
                                 {service.icon}
                             </div>
-                            <h3 className="text-xl font-bold text-[#1F2937] mb-3">
+                            <h3 className="text-xl font-bold text-[#1F2937] mb-4">
                                 {service.title}
                             </h3>
-                            <p className="text-slate-500 leading-relaxed">
+                            <p className="text-slate-600 leading-relaxed mb-4">
                                 {service.description}
                             </p>
+                            {service.extra && (
+                                <div className="mt-auto">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-[#004A99] border border-blue-100">
+                                        {service.extra}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

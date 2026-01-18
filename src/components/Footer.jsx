@@ -16,7 +16,7 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-4">
                             <a
-                                className="size-9 rounded-full bg-white/5 hover:text-blue-600 flex items-center justify-center transition-all"
+                                className="size-9 rounded-full bg-white/5 hover:text-[#004A99] flex items-center justify-center transition-all"
                                 href="https://www.instagram.com/navarroautomocion/"
                                 target="_blank"
                                 rel="noopener noreferrer"

@@ -267,7 +267,7 @@ export default function StockGrid() {
                                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all flex items-center gap-2"
                             >
                                 <span className="material-symbols-outlined text-[18px]">restart_alt</span>
-                                Limpiar filtros
+                                Reiniciar búsqueda
                             </button>
                         </div>
                     </div>
@@ -276,7 +276,7 @@ export default function StockGrid() {
                         {/* Results Count and View Toggle */}
                         <div className="mb-6 flex items-center justify-between">
                             <div className="text-sm text-slate-600">
-                                Mostrando <span className="font-semibold text-slate-900">{filteredCars.length}</span> de {cars.length} vehículos
+                                <span className="font-semibold text-slate-900">{filteredCars.length}</span> unidades disponibles para entrega inmediata
                             </div>
 
                             {/* View Mode Toggle */}
@@ -311,7 +311,7 @@ export default function StockGrid() {
                                     onClick={resetFilters}
                                     className="text-primary hover:text-blue-700 font-medium"
                                 >
-                                    Limpiar filtros
+                                    Reiniciar búsqueda
                                 </button>
                             </div>
                         ) : (

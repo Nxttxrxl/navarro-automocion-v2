@@ -5,7 +5,7 @@ export default function Hero() {
     const HERO_TITLE = "Nuestros coches te pueden gustar más o menos, pero hay una cosa garantizada: ";
     const HERO_HIGHLIGHT = "Máxima honestidad";
     const HERO_SUBTITLE_END = " y la mejor relación calidad/precio.";
-    const HERO_DESCRIPTION = "20 años de experiencia y miles de coches vendidos en Tarragona hablando claro. Si no tenemos lo que buscas, te lo encontramos.";
+    const HERO_DESCRIPTION = "20 años seleccionando los mejores vehículos en Tarragona. Revisados a fondo para que tú solo te preocupes de conducir.";
     const STAT_1_NUMBER = "+1000";
     const STAT_1_LABEL = "de coches vendidos";
     const STAT_2_NUMBER = "4.9/5";
@@ -20,14 +20,14 @@ export default function Hero() {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 w-fit">
                             <span className="size-2 rounded-full bg-primary animate-pulse"></span>
                             <span className="text-xs font-semibold text-primary tracking-wide uppercase">
-                                Honestidad y Transparencia
+                                Calidad Certificada y Trato Directo
                             </span>
                         </div>
 
                         <h1 className="text-[26px] sm:text-[26px] lg:text-[36px] font-extrabold text-[#1F2937] tracking-tight leading-tight">
                             {HERO_TITLE}
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#004A99]">
                                 {HERO_HIGHLIGHT}
                             </span>
                             {HERO_SUBTITLE_END}
@@ -39,7 +39,7 @@ export default function Hero() {
 
                         <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
                             <a
-                                className="inline-flex bg-blue-600 hover:bg-blue-700 text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-blue-500/30 items-center justify-center gap-2"
+                                className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
                                 href="/catalogo"
                             >
                                 <span className="material-symbols-outlined">directions_car</span>

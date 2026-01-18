@@ -3,8 +3,11 @@
 
 /* Custom Theme Variables */
 @theme {
-  --color-primary: #0056b3;
-  --color-primary-dark: #004494;
+  /* Corporate Blue - Matches logo color */
+  --color-primary: #004A99;
+  --color-primary-hover: #003d7a;
+  --color-primary-light: #0056b3;
+
   --color-wallapop-teal: #13C1AC;
   --color-wallapop-teal-dark: #11AE9A;
   --color-text-dark: #1F2937;
