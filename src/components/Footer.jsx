@@ -64,7 +64,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             <li className="flex justify-between text-slate-400 text-sm">
                                 <span>Lunes a Viernes:</span>
-                                <span className="text-white">16:00 - 19:00</span>
+                                <span className="text-white">16:00 - 18:30</span>
                             </li>
                             <li className="flex justify-between text-slate-400 text-sm">
                                 <span>Sábados y Domingos:</span>
@@ -74,15 +74,20 @@ export default function Footer() {
                     </div>
 
                     {/* Map */}
-                    <div className="col-span-1 h-48 rounded-xl overflow-hidden relative bg-slate-800 border border-slate-700">
+                    <a
+                        href="https://www.google.com/maps/place/Navarro+Automoci%C3%B3n/@41.1477581,1.2153251,17z/data=!3m1!4b1!4m6!3m5!1s0x12a3fde1157f7973:0x3fc1290a410c6586!8m2!3d41.1477581!4d1.2153251!16s%2Fg%2F11j259xz4j?hl=es&entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="col-span-1 h-48 rounded-xl overflow-hidden relative bg-slate-800 border border-slate-700 block active:scale-[0.98] transition-transform"
+                    >
                         <div
-                            className="w-full h-full bg-cover bg-center opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+                            className="w-full h-full bg-cover bg-center opacity-80 hover:opacity-100 transition-opacity"
                             style={{
                                 backgroundImage:
                                     "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxTZbdbSfItKDAWB_u3jISUkMJ3oKPKyvOrToZixtXnULdeBzA74dcwJwtp_g7eOcka3ptoakVdDpnwWmCX3MEDCjvX5j5QyLRQorTBH9Uj1lWKA6eNDdx9Qku4uUn2AqvzEQ4v9E0lcSfzg8AQLe2tMj3421xUeUBfp6gXjULVhyLjpvFChdX0UBYpRUczs7l9mRvGHet6D_9v9oWdijkM6t95Kvjr2yFMeiU7NYPzsU3pM3lnihYfn67hrdsJErhJ7ZyteUKBhw')",
                             }}
                         ></div>
-                        <div className="absolute bottom-3 left-3 pointer-events-none">
+                        <div className="absolute bottom-3 left-3">
                             <span className="bg-slate-900/90 text-white px-3 py-1.5 rounded text-xs font-bold shadow-lg flex items-center gap-1">
                                 <span className="material-symbols-outlined text-[14px]">
                                     map
@@ -90,7 +95,7 @@ export default function Footer() {
                                 Ver en mapa
                             </span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 {/* Copyright */}

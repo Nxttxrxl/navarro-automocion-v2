@@ -30,6 +30,7 @@ export default function StockGrid() {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filtersOpen, setFiltersOpen] = useState(true); // Default open on desktop
+    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
     // Filter states with range sliders
     const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
@@ -57,8 +58,15 @@ export default function StockGrid() {
         return brands.filter(Boolean).sort();
     }, [cars]);
 
-    const getWhatsAppLink = (car) => {
+    const getWhatsAppLink = (car, isReserva = false) => {
         const year = car.year || 'sin especificar';
+        const price = car.precio ? `${car.precio.toLocaleString('es-ES')}€` : 'a consultar';
+
+        if (isReserva) {
+            const message = `Hola! Me gustaría reservar el ${car.marca} ${car.modelo} de ${price} que he visto en vuestra web.`;
+            return `https://wa.me/34683646930?text=${encodeURIComponent(message)}`;
+        }
+
         const message = `Hola, estoy interesado en el ${car.marca} ${car.modelo} de ${year} que he visto en vuestra web.`;
         return `https://wa.me/34683646930?text=${encodeURIComponent(message)}`;
     };
@@ -204,7 +212,8 @@ export default function StockGrid() {
                         </div>
 
                         {/* Environmental Labels - Pill Design */}
-                        <div className="mt-6">
+                        {/* TEMPORARILY DISABLED - Filter section commented out for UI simplification */}
+                        {/* <div className="mt-6">
                             <label className="block text-sm font-medium text-slate-700 mb-3">
                                 Etiqueta Ambiental
                             </label>
@@ -249,7 +258,7 @@ export default function StockGrid() {
                                     );
                                 })}
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Reset Button */}
                         <div className="mt-6 flex justify-end">
@@ -264,9 +273,35 @@ export default function StockGrid() {
                     </div>
 
                     <div className="md:w-3/4">
-                        {/* Results Count */}
-                        <div className="mb-6 text-sm text-slate-600">
-                            Mostrando <span className="font-semibold text-slate-900">{filteredCars.length}</span> de {cars.length} vehículos
+                        {/* Results Count and View Toggle */}
+                        <div className="mb-6 flex items-center justify-between">
+                            <div className="text-sm text-slate-600">
+                                Mostrando <span className="font-semibold text-slate-900">{filteredCars.length}</span> de {cars.length} vehículos
+                            </div>
+
+                            {/* View Mode Toggle */}
+                            <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg p-1">
+                                <button
+                                    onClick={() => setViewMode('grid')}
+                                    className={`p-2 rounded transition-all ${viewMode === 'grid'
+                                        ? 'bg-blue-600 text-white shadow-sm'
+                                        : 'text-slate-400 hover:text-slate-600'
+                                        }`}
+                                    title="Vista en cuadrícula"
+                                >
+                                    <span className="material-symbols-outlined text-[20px]">grid_view</span>
+                                </button>
+                                <button
+                                    onClick={() => setViewMode('list')}
+                                    className={`p-2 rounded transition-all ${viewMode === 'list'
+                                        ? 'bg-blue-600 text-white shadow-sm'
+                                        : 'text-slate-400 hover:text-slate-600'
+                                        }`}
+                                    title="Vista en lista"
+                                >
+                                    <span className="material-symbols-outlined text-[20px]">view_list</span>
+                                </button>
+                            </div>
                         </div>
 
                         {filteredCars.length === 0 ? (
@@ -280,16 +315,25 @@ export default function StockGrid() {
                                 </button>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className={`transition-all duration-300 ${viewMode === 'grid'
+                                ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+                                : 'flex flex-col gap-6'
+                                }`}>
                                 {filteredCars.map((car) => (
                                     <div
                                         key={car.id}
-                                        className="group bg-white rounded-lg overflow-hidden border border-slate-200 hover:border-primary/50 transition-all duration-300 hover:shadow-lg flex flex-col"
+                                        className={`group bg-white rounded-lg overflow-hidden border border-slate-200 hover:border-primary/50 transition-all duration-300 hover:shadow-lg ${viewMode === 'grid'
+                                            ? 'flex flex-col'
+                                            : 'flex flex-col md:flex-row'
+                                            }`}
                                     >
-                                        {/* Image with aspect-video ratio */}
-                                        <div className="aspect-video bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
+                                        {/* Image */}
+                                        <div className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden border-b md:border-b-0 border-slate-100 shrink-0 ${viewMode === 'grid'
+                                            ? 'aspect-video'
+                                            : 'aspect-video md:aspect-[4/3] md:w-80 lg:w-96 md:border-r'
+                                            }`}>
                                             {car.imagen ? (
-                                                <picture>
+                                                <picture className="w-full h-full">
                                                     <source
                                                         srcSet={`/inventory_webp/${decodeURIComponent(car.imagen.split('/').pop().replace(/\.[^/.]+$/, ""))}.webp`}
                                                         type="image/webp"
@@ -309,14 +353,26 @@ export default function StockGrid() {
                                                 </div>
                                             )}
 
-                                            {/* Badge Etiqueta */}
-                                            {car.etiqueta && (
-                                                <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm border border-slate-200 px-2.5 py-1 rounded-md text-xs font-bold text-slate-700 uppercase shadow-sm">
-                                                    {car.etiqueta}
-                                                </div>
-                                            )}
+                                            {/* Badge Etiqueta - DGT Icon */}
+                                            {car.etiqueta && (() => {
+                                                const labelOption = LABEL_OPTIONS.find(opt => opt.value === car.etiqueta);
+                                                if (labelOption?.image) {
+                                                    return (
+                                                        <div className="absolute bottom-0 left-0 m-2">
+                                                            <img
+                                                                src={labelOption.image}
+                                                                alt={`Etiqueta ${car.etiqueta}`}
+                                                                className="h-8 w-auto drop-shadow-lg"
+                                                                title={labelOption.label}
+                                                            />
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            })()}
                                         </div>
 
+                                        {/* Content */}
                                         <div className="p-5 flex-grow flex flex-col">
                                             <div className="flex-grow">
                                                 <div className="flex items-start justify-between mb-2">
@@ -352,15 +408,27 @@ export default function StockGrid() {
                                                 </div>
                                             </div>
 
-                                            <a
-                                                href={getWhatsAppLink(car)}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="mt-auto w-full bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
-                                            >
-                                                <span className="material-symbols-outlined text-[20px]">chat</span>
-                                                Consultar disponibilidad
-                                            </a>
+                                            {/* Dual Buttons */}
+                                            <div className="mt-auto grid grid-cols-2 gap-2">
+                                                <a
+                                                    href={getWhatsAppLink(car, true)}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                                                >
+                                                    <span className="material-symbols-outlined text-[20px]">bookmark</span>
+                                                    <span className="hidden sm:inline">Reservar</span>
+                                                </a>
+                                                <a
+                                                    href={getWhatsAppLink(car, false)}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                                                >
+                                                    <span className="material-symbols-outlined text-[20px]">chat</span>
+                                                    <span className="hidden sm:inline">Consultar</span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
