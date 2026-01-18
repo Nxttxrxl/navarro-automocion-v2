@@ -1,3 +1,5 @@
+import heroImage from "../assets/images/Gemini_Generated_Image_z0zxu4z0zxu4z0zx.png";
+
 export default function Hero() {
     // Textos blindados - NO MODIFICAR
     const HERO_TITLE = "Nuestros coches te pueden gustar más o menos, pero hay una cosa garantizada: ";
@@ -63,7 +65,7 @@ export default function Hero() {
                     <div className="lg:w-1/2 relative z-0">
                         <div className="relative rounded-2xl overflow-hidden shadow-2xl drop-shadow-2xl transform hover:scale-105 transition-transform duration-500 max-h-[500px] lg:-mt-32">
                             <img
-                                src="/src/assets/images/Gemini_Generated_Image_z0zxu4z0zxu4z0zx.png"
+                                src={heroImage}
                                 alt="Coche de lujo Navarro Automoción"
                                 className="w-full h-full object-cover"
                             />
