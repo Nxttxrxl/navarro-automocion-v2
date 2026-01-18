@@ -335,15 +335,19 @@ export default function StockGrid() {
                                             {car.imagen ? (
                                                 <picture className="w-full h-full">
                                                     <source
-                                                        srcSet={`/inventory_webp/${decodeURIComponent(car.imagen.split('/').pop().replace(/\.[^/.]+$/, ""))}.webp`}
+                                                        srcSet={`/inventory_webp/${car.imagen.replace(/\.[^/.]+$/, "")}.webp`}
                                                         type="image/webp"
                                                     />
                                                     <img
-                                                        src={`/inventory_png/${decodeURIComponent(car.imagen.split('/').pop().replace(/\.[^/.]+$/, ""))}.png`}
+                                                        src={`/inventory_png/${car.imagen.replace(/\.[^/.]+$/, "")}.png`}
                                                         alt={`${car.marca} ${car.modelo}`}
                                                         className="w-full h-full object-cover"
                                                         loading="lazy"
                                                         decoding="async"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = '/logo-rect.png';
+                                                        }}
                                                     />
                                                 </picture>
                                             ) : (

@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 
+// Utility function to sanitize filenames
+function sanitizeFilename(filename) {
+    return filename
+        .normalize('NFD') // Decompose combined characters
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks (accents)
+        .replace(/[^a-zA-Z0-9\s\-_.]/g, '') // Keep only alphanumeric, spaces, hyphens, underscores, dots
+        .replace(/\s+/g, ' ') // Normalize multiple spaces to single space
+        .trim();
+}
+
 export default function Admin() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
@@ -108,7 +118,8 @@ export default function Admin() {
             // 1. Upload image to Supabase Storage if a new one is selected
             if (imageFile) {
                 const fileExt = imageFile.name.split('.').pop();
-                const fileName = `${formData.marca} ${formData.modelo} ${formData.matricula || Date.now()}.${fileExt}`;
+                const rawFileName = `${formData.marca} ${formData.modelo} ${formData.matricula || Date.now()}.${fileExt}`;
+                const fileName = sanitizeFilename(rawFileName);
                 const filePath = fileName;
 
                 const { data: uploadData, error: uploadError } = await supabase.storage
@@ -127,7 +138,7 @@ export default function Admin() {
                     .from('coches')
                     .getPublicUrl(filePath);
 
-                imageUrl = urlData.publicUrl;
+                imageUrl = fileName;
             }
 
             // 3. Prepare car data
@@ -635,15 +646,19 @@ export default function Admin() {
                                             {car.imagen ? (
                                                 <picture className="w-full h-full">
                                                     <source
-                                                        srcSet={`/inventory_webp/${decodeURIComponent(car.imagen.split('/').pop().replace(/\.[^/.]+$/, ""))}.webp`}
+                                                        srcSet={`/inventory_webp/${car.imagen.replace(/\.[^/.]+$/, "")}.webp`}
                                                         type="image/webp"
                                                     />
                                                     <img
-                                                        src={`/inventory_png/${decodeURIComponent(car.imagen.split('/').pop().replace(/\.[^/.]+$/, ""))}.png`}
+                                                        src={`/inventory_png/${car.imagen.replace(/\.[^/.]+$/, "")}.png`}
                                                         alt={`${car.marca} ${car.modelo}`}
                                                         className="w-full h-full object-cover"
                                                         loading="lazy"
                                                         decoding="async"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = '/logo-rect.png';
+                                                        }}
                                                     />
                                                 </picture>
                                             ) : (
