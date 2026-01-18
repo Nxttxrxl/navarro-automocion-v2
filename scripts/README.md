@@ -7,6 +7,7 @@ Este directorio contiene herramientas para la gestión de datos, mantenimiento y
 | Script | Descripción | Uso |
 | :--- | :--- | :--- |
 | `descargar_respaldo.js` | Descarga todas las fotos de Supabase a la carpeta local `COPIA_SEGURIDAD_FOTOS`. | `node scripts/descargar_respaldo.js` |
+| `migrate_image_refs.js` | **(Seguridad)** Convierte URLs accidentales en la DB a nombres de archivo limpios. | `node scripts/migrate_image_refs.js` |
 | `utils.js` | Funciones de utilidad (sanitización de nombres, etc.). | Requerido por otros scripts. |
 
 ## 🛠️ Herramientas de Gestión Masiva
