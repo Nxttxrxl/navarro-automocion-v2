@@ -12,16 +12,27 @@ export default function Hero() {
                 .select("*");
 
             if (data) {
-                // Filter cars with Spanish license plate format (4 digits + 3 letters)
-                // This ensures photos show uncensored plates in the Bento Grid
-                const carsWithRealPlates = data.filter(car => {
+                // Split into two pools: Real Plates vs Others
+                const realPlatesPool = data.filter(car => {
                     if (!car.matricula || !car.imagen) return false;
                     const plateRegex = /^\d{4}[A-Z]{3}$/;
                     return plateRegex.test(car.matricula);
                 });
 
-                // Get 3 random cars from those with real plates
-                const shuffled = carsWithRealPlates.sort(() => 0.5 - Math.random());
+                const othersPool = data.filter(car => {
+                    if (!car.imagen) return false;
+                    const plateRegex = /^\d{4}[A-Z]{3}$/;
+                    return !plateRegex.test(car.matricula);
+                });
+
+                // Choose pool (50/50 chance) but fallback if one is empty
+                const useRealPlates = Math.random() > 0.5;
+                const selectedPool = (useRealPlates && realPlatesPool.length >= 3)
+                    ? realPlatesPool
+                    : (othersPool.length >= 3 ? othersPool : realPlatesPool);
+
+                // Get 3 random cars from the selected pool
+                const shuffled = [...selectedPool].sort(() => 0.5 - Math.random());
                 setFeaturedCars(shuffled.slice(0, 3));
             }
         }
