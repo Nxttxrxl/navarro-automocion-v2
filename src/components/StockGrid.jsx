@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { generateSlug } from "../utils/slugUtils";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -469,123 +471,130 @@ export default function StockGrid() {
                                     ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
                                     : 'flex flex-col gap-6'
                                     }`}>
-                                    {paginatedCars.map((car) => (
-                                        <div
-                                            key={car.id}
-                                            className={`group bg-white rounded-lg overflow-hidden border border-slate-200 hover:border-primary/50 transition-all duration-300 hover:shadow-lg ${viewMode === 'grid'
-                                                ? 'flex flex-col'
-                                                : 'flex flex-col md:flex-row'
-                                                }`}
-                                        >
-                                            {/* Image */}
-                                            <div className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden border-b md:border-b-0 border-slate-100 shrink-0 ${viewMode === 'grid'
-                                                ? 'aspect-video'
-                                                : 'aspect-video md:aspect-[4/3] md:w-80 lg:w-96 md:border-r'
-                                                }`}>
-                                                {car.imagen ? (
-                                                    <picture className="w-full h-full">
-                                                        <source
-                                                            srcSet={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen.replace(/\.[^/.]+$/, "")}.webp`}
-                                                            type="image/webp"
-                                                        />
-                                                        <img
-                                                            src={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen}`}
-                                                            alt={`${car.marca} ${car.modelo}`}
-                                                            className="w-full h-full object-cover"
-                                                            loading="lazy"
-                                                            decoding="async"
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = '/logo_nuevo_rect_png.png';
-                                                            }}
-                                                        />
-                                                    </picture>
-                                                ) : (
-                                                    <div className="flex flex-col items-center justify-center gap-3 text-slate-300">
-                                                        <span className="text-2xl font-black tracking-tighter text-slate-400">AUTOMOCIÓN</span>
-                                                        <span className="material-symbols-outlined text-5xl">directions_car</span>
-                                                    </div>
-                                                )}
+                                    {paginatedCars.map((car) => {
+                                        const slug = generateSlug(car);
+                                        return (
+                                            <div
+                                                key={car.id}
+                                                className={`group bg-white rounded-lg overflow-hidden border border-slate-200 hover:border-primary/50 transition-all duration-300 hover:shadow-lg ${viewMode === 'grid'
+                                                    ? 'flex flex-col'
+                                                    : 'flex flex-col md:flex-row'
+                                                    }`}
+                                            >
+                                                {/* Clickable Image that links to detail page */}
+                                                <Link to={`/catalogo/${slug}`} className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden border-b md:border-b-0 border-slate-100 shrink-0 ${viewMode === 'grid'
+                                                    ? 'aspect-video'
+                                                    : 'aspect-video md:aspect-[4/3] md:w-80 lg:w-96 md:border-r'
+                                                    }`}>
+                                                    {car.imagen ? (
+                                                        <picture className="w-full h-full">
+                                                            <source
+                                                                srcSet={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen.replace(/\.[^/.]+$/, "")}.webp`}
+                                                                type="image/webp"
+                                                            />
+                                                            <img
+                                                                src={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen}`}
+                                                                alt={`${car.marca} ${car.modelo}`}
+                                                                className="w-full h-full object-cover"
+                                                                loading="lazy"
+                                                                decoding="async"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = '/logo_nuevo_rect_png.png';
+                                                                }}
+                                                            />
+                                                        </picture>
+                                                    ) : (
+                                                        <div className="flex flex-col items-center justify-center gap-3 text-slate-300">
+                                                            <span className="text-2xl font-black tracking-tighter text-slate-400">AUTOMOCIÓN</span>
+                                                            <span className="material-symbols-outlined text-5xl">directions_car</span>
+                                                        </div>
+                                                    )}
 
-                                                {/* Badge Etiqueta - DGT Icon */}
-                                                {car.etiqueta && (() => {
-                                                    const labelOption = LABEL_OPTIONS.find(opt => opt.value === car.etiqueta);
-                                                    if (labelOption?.image) {
-                                                        return (
-                                                            <div className="absolute bottom-0 left-0 m-2">
-                                                                <img
-                                                                    src={labelOption.image}
-                                                                    alt={`Etiqueta ${car.etiqueta}`}
-                                                                    className="h-8 w-auto drop-shadow-lg"
-                                                                    title={labelOption.label}
-                                                                />
+                                                    {/* Badge Etiqueta - DGT Icon */}
+                                                    {car.etiqueta && (() => {
+                                                        const labelOption = LABEL_OPTIONS.find(opt => opt.value === car.etiqueta);
+                                                        if (labelOption?.image) {
+                                                            return (
+                                                                <div className="absolute bottom-0 left-0 m-2">
+                                                                    <img
+                                                                        src={labelOption.image}
+                                                                        alt={`Etiqueta ${car.etiqueta}`}
+                                                                        className="h-8 w-auto drop-shadow-lg"
+                                                                        title={labelOption.label}
+                                                                    />
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })()}
+                                                </Link>
+
+                                                {/* Content */}
+                                                <div className="p-5 flex-grow flex flex-col">
+                                                    <div className="flex-grow">
+                                                        <Link to={`/catalogo/${slug}`}>
+                                                            <div className="flex items-start justify-between mb-2">
+                                                                <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">
+                                                                    {car.marca} {car.modelo}
+                                                                </h3>
+                                                                {car.year && (
+                                                                    <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-700 rounded">
+                                                                        {car.year}
+                                                                    </span>
+                                                                )}
                                                             </div>
-                                                        );
-                                                    }
-                                                    return null;
-                                                })()}
-                                            </div>
+                                                        </Link>
+                                                        <p className="text-sm text-slate-500 mb-4 pb-3 border-b border-slate-100">{car.version}</p>
 
-                                            {/* Content */}
-                                            <div className="p-5 flex-grow flex flex-col">
-                                                <div className="flex-grow">
-                                                    <div className="flex items-start justify-between mb-2">
-                                                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">
-                                                            {car.marca} {car.modelo}
-                                                        </h3>
-                                                        {car.year && (
-                                                            <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-700 rounded">
-                                                                {car.year}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    <p className="text-sm text-slate-500 mb-4 pb-3 border-b border-slate-100">{car.version}</p>
+                                                        {/* Price Display */}
+                                                        <div className="mb-4">
+                                                            <p className="text-2xl font-bold text-primary">{formatPrice(car.precio)}</p>
+                                                        </div>
 
-                                                    {/* Price Display */}
-                                                    <div className="mb-4">
-                                                        <p className="text-2xl font-bold text-primary">{formatPrice(car.precio)}</p>
+                                                        <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 mb-4">
+                                                            <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
+                                                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">engineering</span>
+                                                                <span className="font-medium text-center">{car.motor || 'N/A'}</span>
+                                                            </div>
+                                                            <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
+                                                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">speed</span>
+                                                                <span className="font-medium">{car.cv || 'N/A'} CV</span>
+                                                            </div>
+                                                            <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
+                                                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">add_road</span>
+                                                                <span className="font-medium">{car.km?.toLocaleString('es-ES') || 0} km</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 mb-4">
-                                                        <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
-                                                            <span className="material-symbols-outlined text-[18px] text-primary mb-1">engineering</span>
-                                                            <span className="font-medium text-center">{car.motor || 'N/A'}</span>
-                                                        </div>
-                                                        <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
-                                                            <span className="material-symbols-outlined text-[18px] text-primary mb-1">speed</span>
-                                                            <span className="font-medium">{car.cv || 'N/A'} CV</span>
-                                                        </div>
-                                                        <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
-                                                            <span className="material-symbols-outlined text-[18px] text-primary mb-1">add_road</span>
-                                                            <span className="font-medium">{car.km?.toLocaleString('es-ES') || 0} km</span>
-                                                        </div>
+                                                    {/* Dual Buttons */}
+                                                    <div className="mt-auto grid grid-cols-2 gap-2">
+                                                        <a
+                                                            href={getWhatsAppLink(car, true)}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                                                        >
+                                                            <span className="material-symbols-outlined text-[20px]">bookmark</span>
+                                                            <span className="hidden sm:inline">Reservar</span>
+                                                        </a>
+                                                        <a
+                                                            href={getWhatsAppLink(car, false)}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                                                        >
+                                                            <span className="material-symbols-outlined text-[20px]">chat</span>
+                                                            <span className="hidden sm:inline">Consultar</span>
+                                                        </a>
                                                     </div>
                                                 </div>
-
-                                                {/* Dual Buttons */}
-                                                <div className="mt-auto grid grid-cols-2 gap-2">
-                                                    <a
-                                                        href={getWhatsAppLink(car, true)}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
-                                                    >
-                                                        <span className="material-symbols-outlined text-[20px]">bookmark</span>
-                                                        <span className="hidden sm:inline">Reservar</span>
-                                                    </a>
-                                                    <a
-                                                        href={getWhatsAppLink(car, false)}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
-                                                    >
-                                                        <span className="material-symbols-outlined text-[20px]">chat</span>
-                                                        <span className="hidden sm:inline">Consultar</span>
-                                                    </a>
-                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
 
                                 {/* Pagination Controls */}
@@ -595,8 +604,8 @@ export default function StockGrid() {
                                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                                             disabled={currentPage === 1}
                                             className={`px-4 py-2 rounded-lg font-medium transition-all ${currentPage === 1
-                                                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                                    : 'bg-white border border-slate-300 text-slate-700 hover:bg-[#004A99] hover:text-white hover:border-[#004A99]'
+                                                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                                : 'bg-white border border-slate-300 text-slate-700 hover:bg-[#004A99] hover:text-white hover:border-[#004A99]'
                                                 }`}
                                         >
                                             Anterior
@@ -608,8 +617,8 @@ export default function StockGrid() {
                                                     key={page}
                                                     onClick={() => setCurrentPage(page)}
                                                     className={`w-10 h-10 rounded-lg font-medium transition-all ${currentPage === page
-                                                            ? 'bg-[#004A99] text-white shadow-md'
-                                                            : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                                                        ? 'bg-[#004A99] text-white shadow-md'
+                                                        : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
                                                         }`}
                                                 >
                                                     {page}
@@ -621,8 +630,8 @@ export default function StockGrid() {
                                             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                                             disabled={currentPage === totalPages}
                                             className={`px-4 py-2 rounded-lg font-medium transition-all ${currentPage === totalPages
-                                                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                                    : 'bg-white border border-slate-300 text-slate-700 hover:bg-[#004A99] hover:text-white hover:border-[#004A99]'
+                                                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                                : 'bg-white border border-slate-300 text-slate-700 hover:bg-[#004A99] hover:text-white hover:border-[#004A99]'
                                                 }`}
                                         >
                                             Siguiente

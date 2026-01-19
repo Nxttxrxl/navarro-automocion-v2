@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Catalogo from "./pages/Catalogo";
+import VehicleDetail from "./pages/VehicleDetail";
 import Admin from "./pages/Admin";
 import Footer from "./components/Footer";
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalogo" element={<Catalogo />} />
+            <Route path="/catalogo/:slug" element={<VehicleDetail />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
