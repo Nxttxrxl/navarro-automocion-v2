@@ -35,3 +35,20 @@ node_modules/.cache
 .env
 .env.*
 !.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Data & Scripts Output
+scripts/*.csv
+scripts/*.json
+!scripts/package.json
+!scripts/*.config.json
+*.xlsx
+session_data/
+cookies.json
+wallapop_session

@@ -2,31 +2,28 @@
 
 Este directorio contiene herramientas para la gestión de datos, mantenimiento y automatización del inventario.
 
-## 🚀 Mantenimiento y Backup
+## 🚀 Mantenimiento y Emergencias
 
 | Script | Descripción | Uso |
 | :--- | :--- | :--- |
-| `descargar_respaldo.js` | Descarga todas las fotos de Supabase a la carpeta local `COPIA_SEGURIDAD_FOTOS`. | `node scripts/descargar_respaldo.js` |
-| `migrate_image_refs.js` | **(Seguridad)** Convierte URLs accidentales en la DB a nombres de archivo limpios. | `node scripts/migrate_image_refs.js` |
-| `utils.js` | Funciones de utilidad (sanitización de nombres, etc.). | Requerido por otros scripts. |
+| `emergency_restore.js` | Restauración completa de la DB desde `current_inventory.json`. | `node scripts/emergency_restore.js` |
+| `verify_all_photos.js` | Verifica la integridad entre local, Storage y Base de Datos. | `node scripts/verify_all_photos.js` |
+| `list_cars_without_images.js` | Lista todos los vehículos que no tienen imagen vinculada. | `node scripts/list_cars_without_images.js` |
 
 ## 🛠️ Herramientas de Gestión Masiva
-
-Estos scripts son útiles si necesitas hacer cambios en muchos coches a la vez fuera del Panel de Control.
 
 | Script | Descripción | Uso |
 | :--- | :--- | :--- |
 | `importar_fotos.js` | Importa fotos masivamente desde carpetas locales a Supabase. | `node scripts/importar_fotos.js` |
 | `sincronizar_datos.js` | Sincroniza datos técnicos (precios, km, etc.) desde el CSV. | `node scripts/sincronizar_datos.js` |
-| `verificar_datos.js` | Utilidad rápida para ver los últimos registros en la consola. | `node scripts/verificar_datos.js` |
 
-## 📦 Datos y Referencia
+## 📦 Datos
 
 | Archivo | Descripción |
 | :--- | :--- |
+| `current_inventory.json` | Backup de seguridad de la tabla `coches`. |
 | `inventario_final.csv` | Listado maestro de vehículos para sincronización masiva. |
-| `INVENTARIO_README.md` | Guía detallada sobre cómo gestionar el inventario por CSV. |
 
 ---
 > [!NOTE]
-> Se han mantenido los scripts genéricos y de gestión masiva. Solo se han eliminado los scripts de migración únicos (como el de arreglar el Mercedes E350 o la migración de URLs de ayer) que no tienen utilidad recurrente.
+> Se han eliminado todos los scripts temporales y de migración única para mantener la limpieza del proyecto. Solo se conservan las herramientas esenciales de mantenimiento.

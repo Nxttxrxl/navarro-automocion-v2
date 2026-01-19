@@ -61,7 +61,11 @@ export default function StockGrid() {
             if (error) {
                 console.error("Error fetching cars:", error);
             } else {
-                setCars(data);
+                // Filter out cars without images
+                const carsWithImages = (data || []).filter(car =>
+                    car.imagen && car.imagen.trim().length > 0
+                );
+                setCars(carsWithImages);
             }
             setLoading(false);
         }
@@ -562,8 +566,8 @@ export default function StockGrid() {
                                                                 <span className="font-medium">{car.cv || 'N/A'} CV</span>
                                                             </div>
                                                             <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
-                                                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">add_road</span>
-                                                                <span className="font-medium">{car.km?.toLocaleString('es-ES') || 0} km</span>
+                                                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">settings_suggest</span>
+                                                                <span className="font-medium">{car.transmision || 'Manual'}</span>
                                                             </div>
                                                         </div>
                                                     </div>

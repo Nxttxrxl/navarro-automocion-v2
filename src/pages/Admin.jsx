@@ -40,6 +40,31 @@ const convertToWebP = (file) => {
     });
 };
 
+// Utility to convert image to PNG blob
+const convertToPng = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error('Canvas toBlob PNG failed'));
+                }, 'image/png');
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
+
 export default function Admin() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
@@ -146,35 +171,46 @@ export default function Admin() {
 
             // 1. Upload images to Supabase Storage if a new one is selected
             if (imageFile) {
-                const baseName = sanitizeFilename(`${formData.marca} ${formData.modelo} ${formData.matricula || Date.now()}`);
-                const fileExt = imageFile.name.split('.').pop().toLowerCase();
-                const originalFullName = `${baseName}.${fileExt}`;
+                // Generate standardized name: BRAND_MODEL_YEAR
+                const stdBrand = formData.marca.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                const stdModel = (formData.modelo || '').toUpperCase().replace(/[^A-Z0-9]/g, '_');
+                const stdYear = formData.year || '0000';
+
+                let baseName = `${stdBrand}_${stdModel}_${stdYear}`.replace(/__+/g, '_').replace(/_$/, '');
+
+                // Always target these two filenames
                 const webpFullName = `${baseName}.webp`;
+                const pngFullName = `${baseName}.png`;
 
-                // Upload original file
-                const { error: uploadError } = await supabase.storage
-                    .from('coches')
-                    .upload(originalFullName, imageFile, {
-                        cacheControl: '3600',
-                        upsert: true
-                    });
-
-                if (uploadError) throw new Error(`Error original: ${uploadError.message}`);
-
-                // Generate and upload WebP version
                 try {
+                    // A. Generate and Upload WebP
                     const webpBlob = await convertToWebP(imageFile);
-                    await supabase.storage
+                    const { error: webpError } = await supabase.storage
                         .from('coches')
                         .upload(webpFullName, webpBlob, {
                             cacheControl: '3600',
                             upsert: true
                         });
+                    if (webpError) console.warn('WebP upload failed:', webpError.message);
+
+                    // B. Generate and Upload PNG
+                    // Even if input is PNG, we regenerate to ensure standardization and strip metadata if needed
+                    const pngBlob = await convertToPng(imageFile);
+                    const { error: pngError } = await supabase.storage
+                        .from('coches')
+                        .upload(pngFullName, pngBlob, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+                    if (pngError) console.warn('PNG upload failed:', pngError.message);
+
                 } catch (err) {
-                    console.warn('WebP conversion/upload failed:', err);
+                    console.error('Image conversion/upload failed:', err);
+                    throw new Error('Error procesando las imágenes. Inténtalo de nuevo.');
                 }
 
-                finalImageName = originalFullName;
+                // Reference the WebP in the database
+                finalImageName = webpFullName;
             }
 
             // 3. Prepare car data
