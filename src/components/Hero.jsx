@@ -12,13 +12,16 @@ export default function Hero() {
                 .select("*");
 
             if (data) {
-                // Filter cars that have an image
-                const carsWithImages = data.filter(car =>
-                    car.imagen && car.imagen.trim().length > 0
-                );
+                // Filter cars with Spanish license plate format (4 digits + 3 letters)
+                // This ensures photos show uncensored plates in the Bento Grid
+                const carsWithRealPlates = data.filter(car => {
+                    if (!car.matricula || !car.imagen) return false;
+                    const plateRegex = /^\d{4}[A-Z]{3}$/;
+                    return plateRegex.test(car.matricula);
+                });
 
-                // Get 3 random cars from those with images
-                const shuffled = carsWithImages.sort(() => 0.5 - Math.random());
+                // Get 3 random cars from those with real plates
+                const shuffled = carsWithRealPlates.sort(() => 0.5 - Math.random());
                 setFeaturedCars(shuffled.slice(0, 3));
             }
         }
