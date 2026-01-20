@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "../lib/supabaseClient";
 import { extractIdFromSlug } from "../utils/slugUtils";
+import FinanceCalculator from "../components/FinanceCalculator";
 
 // Environmental label options
 const LABEL_OPTIONS = [
@@ -356,6 +357,9 @@ export default function VehicleDetail() {
                                     <span>Consultar / Contactar</span>
                                 </a>
                             </div>
+
+                            {/* Finance Calculator */}
+                            <FinanceCalculator car={car} />
                         </div>
                     </div>
                 </div>
