@@ -437,7 +437,7 @@ export default function VehicleDetail() {
                   <span className="material-symbols-outlined text-[24px]">
                     chat
                   </span>
-                  <span>Consultar / Contactar</span>
+                  <span>Contactar</span>
                 </a>
               </div>
 
