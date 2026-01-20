@@ -41,6 +41,17 @@ const sliderStyles = {
   },
 };
 
+// CSS Class Constants for Reusability
+const BUTTON_BASE_CLASSES =
+  'font-bold rounded flex items-center justify-center gap-1 shadow-sm transition-all';
+const BUTTON_RESERVAR_CLASSES = 'bg-green-600 hover:bg-green-700 text-white';
+const BUTTON_CONTACTAR_CLASSES = 'bg-primary hover:bg-blue-700 text-white';
+const BUTTON_MOBILE_CLASSES = 'text-xs py-2 px-2';
+const BUTTON_DESKTOP_CLASSES =
+  'font-semibold py-3 px-4 rounded-lg gap-2 hover:shadow-md h-full';
+const ICON_MOBILE_SIZE = 'text-[16px]';
+const ICON_DESKTOP_SIZE = 'text-[20px]';
+
 export default function StockGrid() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,6 +110,33 @@ export default function StockGrid() {
   const formatPrice = (price) => {
     if (!price || price === 0) return 'Precio a consultar';
     return `${price.toLocaleString('es-ES')}€`;
+  };
+
+  // Action Button Component (Reusable)
+  const ActionButton = ({ car, isReserva, isMobile, className = '' }) => {
+    const isReservaBtn = isReserva;
+    const baseClasses = isMobile
+      ? BUTTON_MOBILE_CLASSES
+      : BUTTON_DESKTOP_CLASSES;
+    const colorClasses = isReservaBtn
+      ? BUTTON_RESERVAR_CLASSES
+      : BUTTON_CONTACTAR_CLASSES;
+    const iconSize = isMobile ? ICON_MOBILE_SIZE : ICON_DESKTOP_SIZE;
+    const icon = isReservaBtn ? 'bookmark' : 'chat';
+    const label = isReservaBtn ? 'Reservar' : 'Contactar';
+
+    return (
+      <a
+        href={getWhatsAppLink(car, isReservaBtn)}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className={`${BUTTON_BASE_CLASSES} ${colorClasses} ${baseClasses} ${className}`}
+      >
+        <span className={`material-symbols-outlined ${iconSize}`}>{icon}</span>
+        <span className={isMobile ? '' : 'hidden sm:inline'}>{label}</span>
+      </a>
+    );
   };
 
   // Combined filtering logic with range sliders
@@ -742,34 +780,16 @@ export default function StockGrid() {
                             <div
                               className={`mt-auto grid grid-cols-2 gap-2 ${viewMode === 'list' ? 'hidden md:grid' : 'grid'}`}
                             >
-                              <a
-                                href={getWhatsAppLink(car, true)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md h-full"
-                              >
-                                <span className="material-symbols-outlined text-[20px]">
-                                  bookmark
-                                </span>
-                                <span className="hidden sm:inline">
-                                  Reservar
-                                </span>
-                              </a>
-                              <a
-                                href={getWhatsAppLink(car, false)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md h-full"
-                              >
-                                <span className="material-symbols-outlined text-[20px]">
-                                  chat
-                                </span>
-                                <span className="hidden sm:inline">
-                                  Contactar
-                                </span>
-                              </a>
+                              <ActionButton
+                                car={car}
+                                isReserva={true}
+                                isMobile={false}
+                              />
+                              <ActionButton
+                                car={car}
+                                isReserva={false}
+                                isMobile={false}
+                              />
                             </div>
                           </div>
                         </div>
@@ -777,30 +797,18 @@ export default function StockGrid() {
                         {/* Bottom Section: Mobile Buttons Row (50/50 split) - Only for List View */}
                         {viewMode === 'list' && (
                           <div className="md:hidden flex w-full gap-2 p-2 bg-slate-50 border-t border-slate-100">
-                            <a
-                              href={getWhatsAppLink(car, true)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-2 rounded flex items-center justify-center gap-1 shadow-sm"
-                            >
-                              <span className="material-symbols-outlined text-[16px]">
-                                bookmark
-                              </span>
-                              <span>Reservar</span>
-                            </a>
-                            <a
-                              href={getWhatsAppLink(car, false)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex-1 bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-2 rounded flex items-center justify-center gap-1 shadow-sm"
-                            >
-                              <span className="material-symbols-outlined text-[16px]">
-                                chat
-                              </span>
-                              <span>Contactar</span>
-                            </a>
+                            <ActionButton
+                              car={car}
+                              isReserva={true}
+                              isMobile={true}
+                              className="flex-1"
+                            />
+                            <ActionButton
+                              car={car}
+                              isReserva={false}
+                              isMobile={true}
+                              className="flex-1"
+                            />
                           </div>
                         )}
                       </div>
