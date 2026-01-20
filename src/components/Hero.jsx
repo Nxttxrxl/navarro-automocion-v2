@@ -45,54 +45,9 @@ export default function Hero() {
     },
   ];
 
-  // Spring physics configuration
-  const springConfig = { stiffness: 100, damping: 20 };
-
-  // Animation variants with spring
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        ...springConfig,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        ...springConfig,
-      },
-    },
-  };
-
   // Reusable Buttons Component
   const HeroButtons = () => (
-    <motion.div
-      className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto"
-      variants={textVariants}
-    >
+    <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
       <a
         className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
         href="/catalogo"
@@ -109,7 +64,7 @@ export default function Hero() {
         <span className="material-symbols-outlined">storefront</span>
         Ver Catálogo Wallapop
       </a>
-    </motion.div>
+    </div>
   );
 
   // 3D Tilt Card Component
@@ -142,8 +97,7 @@ export default function Hero() {
     };
 
     return (
-      <motion.div
-        variants={cardVariants}
+      <div
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
@@ -152,11 +106,7 @@ export default function Hero() {
           rotateY,
           transformStyle: 'preserve-3d',
         }}
-        whileHover={{
-          scale: 1.05,
-          transition: { type: 'spring', ...springConfig },
-        }}
-        className="bg-white/60 backdrop-blur-xl rounded-2xl shadow-lg p-6 border border-white/20 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden will-change-transform"
+        className="bg-white/60 backdrop-blur-xl rounded-2xl shadow-lg p-6 border border-white/20 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden will-change-transform transition-transform duration-300 hover:scale-105"
       >
         {/* Stat Card */}
         {card.type === 'stat' && (
@@ -191,7 +141,7 @@ export default function Hero() {
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         />
-      </motion.div>
+      </div>
     );
   };
 
@@ -241,48 +191,32 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
           {/* Text Column */}
-          <motion.div
-            className="lg:w-1/2 flex flex-col gap-8 relative z-20 w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="lg:w-1/2 flex flex-col gap-8 relative z-20 w-full">
             {/* Refined Badge */}
-            <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/50 backdrop-blur-sm border border-slate-200 shadow-sm w-fit"
-              variants={textVariants}
-            >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/50 backdrop-blur-sm border border-slate-200 shadow-sm w-fit">
               <span className="size-2 rounded-full bg-primary animate-pulse"></span>
               <span className="text-xs font-semibold text-primary tracking-wide uppercase">
                 Calidad Certificada y Trato Directo
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              className="text-[26px] sm:text-[26px] lg:text-[36px] font-extrabold text-[#1F2937] tracking-tight leading-tight"
-              variants={textVariants}
-            >
+            <h1 className="text-[26px] sm:text-[26px] lg:text-[36px] font-extrabold text-[#1F2937] tracking-tight leading-tight">
               {HERO_TITLE}
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#004A99]">
                 {HERO_HIGHLIGHT}
               </span>
               {HERO_SUBTITLE_END}
-            </motion.h1>
+            </h1>
 
             {/* Desktop Buttons (Hidden on mobile) */}
             <div className="hidden lg:block">
               <HeroButtons />
             </div>
-          </motion.div>
+          </div>
 
           {/* Trust Grid Column */}
-          <motion.div
-            className="lg:w-1/2 relative z-20 w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="lg:w-1/2 relative z-20 w-full">
             {/* Enhanced atmospheric background */}
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-30 -z-10 pointer-events-none"></div>
 
@@ -291,17 +225,12 @@ export default function Hero() {
                 <TiltCard key={card.id} card={card} index={index} />
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Mobile Buttons (Visible only on mobile, after Grid) */}
-          <motion.div
-            className="lg:hidden w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="lg:hidden w-full">
             <HeroButtons />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
