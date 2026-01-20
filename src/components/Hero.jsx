@@ -7,7 +7,6 @@ export default function Hero() {
     'Nuestros coches te pueden gustar más o menos, pero hay una cosa garantizada: ';
   const HERO_HIGHLIGHT = 'Máxima honestidad';
   const HERO_SUBTITLE_END = ' y la mejor relación calidad/precio.';
-  const HERO_DESCRIPTION = '';
 
   // Trust Cards Data
   const trustCards = [
@@ -200,7 +199,7 @@ export default function Hero() {
     <section className="relative bg-white overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
       {/* Subtle Atmospheric Fog - Elegant Mesh Gradients */}
       <motion.div
-        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-50/40 rounded-full blur-[100px]"
+        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-200/40 rounded-full blur-[100px]"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -213,7 +212,7 @@ export default function Hero() {
         }}
       />
       <motion.div
-        className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-slate-100/50 rounded-full blur-[100px]"
+        className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-indigo-100/40 rounded-full blur-[100px]"
         animate={{
           x: [0, -30, 0],
           y: [0, -50, 0],
@@ -226,7 +225,7 @@ export default function Hero() {
         }}
       />
       <motion.div
-        className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[100px]"
+        className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-blue-50/60 rounded-full blur-[100px]"
         animate={{
           x: [0, -40, 0],
           y: [0, 40, 0],
@@ -270,13 +269,6 @@ export default function Hero() {
               </span>
               {HERO_SUBTITLE_END}
             </motion.h1>
-
-            <motion.p
-              className="text-base lg:text-lg text-slate-500 font-normal leading-relaxed max-w-lg"
-              variants={textVariants}
-            >
-              {HERO_DESCRIPTION}
-            </motion.p>
 
             {/* Desktop Buttons (Hidden on mobile) */}
             <div className="hidden lg:block">
