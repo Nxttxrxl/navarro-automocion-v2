@@ -30,8 +30,8 @@ export default function Hero() {
     {
       id: 3,
       type: 'stat',
-      number: '+20 Años',
-      label: 'De experiencia',
+      number: '+20',
+      label: 'Años de experiencia',
       color: 'text-[#004A99]',
       delay: 0.2,
     },
@@ -162,10 +162,10 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative bg-slate-50 overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
+    <section className="relative bg-slate-100 overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
       {/* Subtle Atmospheric Fog - Elegant Mesh Gradients */}
       <motion.div
-        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-200/50 rounded-full blur-[100px] -z-10"
+        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-300/40 rounded-full blur-[100px] -z-10"
         animate={{
           x: [0, 50, 0],
           y: [0, 30, 0],
@@ -178,7 +178,7 @@ export default function Hero() {
         }}
       />
       <motion.div
-        className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-indigo-200/40 rounded-full blur-[100px] -z-10"
+        className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-indigo-300/30 rounded-full blur-[100px] -z-10"
         animate={{
           x: [0, -30, 0],
           y: [0, -50, 0],
