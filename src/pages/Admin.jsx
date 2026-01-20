@@ -84,7 +84,9 @@ export default function Admin() {
         combustible: "",
         etiqueta: "",
         motor: "",
-        descripcion: ""
+        // motor: "", removed duplicate
+        descripcion: "",
+        estado: "Activo"
     });
     const [imageFile, setImageFile] = useState(null);
 
@@ -127,7 +129,9 @@ export default function Admin() {
             combustible: "",
             etiqueta: "",
             motor: "",
-            descripcion: ""
+            motor: "",
+            descripcion: "",
+            estado: "Activo"
         });
         setImageFile(null);
         // Reset file input
@@ -148,7 +152,9 @@ export default function Admin() {
             combustible: car.combustible || "",
             etiqueta: car.etiqueta || "",
             motor: car.motor || "",
-            descripcion: car.descripcion || ""
+            // motor: car.motor || "", removed duplicate
+            descripcion: car.descripcion || "",
+            estado: car.estado || "Activo"
         });
         setEditingCar(car);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -227,6 +233,7 @@ export default function Admin() {
                 etiqueta: formData.etiqueta || null,
                 motor: formData.motor || null,
                 descripcion: formData.descripcion || null,
+                estado: formData.estado || 'Activo',
                 imagen: finalImageName
             };
 
@@ -603,6 +610,27 @@ export default function Admin() {
                                     <option value="C" className="text-green-600 font-bold">C - Verde</option>
                                     <option value="B" className="text-yellow-600 font-bold">B - Amarillo</option>
                                     <option value="Sin etiqueta" className="text-slate-400">Sin etiqueta</option>
+                                </select>
+                            </div>
+
+                            {/* Estado */}
+                            <div>
+                                <label htmlFor="estado" className="block text-sm font-semibold text-slate-700 mb-2">
+                                    Estado
+                                </label>
+                                <select
+                                    id="estado"
+                                    name="estado"
+                                    value={formData.estado}
+                                    onChange={handleInputChange}
+                                    className={`w-full px-4 py-2.5 bg-white border rounded-lg text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none font-medium ${formData.estado === 'Vendido' ? 'border-red-500 text-red-600' :
+                                        formData.estado === 'Reservado' ? 'border-orange-500 text-orange-600' :
+                                            'border-green-500 text-green-600'
+                                        }`}
+                                >
+                                    <option value="Activo" className="text-green-600 font-bold">Activo (En Stock)</option>
+                                    <option value="Reservado" className="text-orange-600 font-bold">Reservado</option>
+                                    <option value="Vendido" className="text-red-600 font-bold">Vendido</option>
                                 </select>
                             </div>
 
