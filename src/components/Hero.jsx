@@ -47,6 +47,34 @@ export default function Hero() {
 
   const springConfig = { stiffness: 100, damping: 20 };
 
+  // Shimmer Button Component (Metallic Shine Effect)
+  const ShimmerButton = ({ children, href, className }) => (
+    <a href={href} className={`relative overflow-hidden ${className}`}>
+      {/* Button Content */}
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        {children}
+      </span>
+
+      {/* Shimmer Overlay */}
+      <motion.div
+        className="absolute inset-0 -translate-x-full"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+        }}
+        animate={{
+          translateX: ['−100%', '200%'],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          repeatDelay: 2,
+          ease: 'easeInOut',
+        }}
+      />
+    </a>
+  );
+
   const gridVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -64,13 +92,13 @@ export default function Hero() {
   // Reusable Buttons Component
   const HeroButtons = () => (
     <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
-      <a
-        className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold font-satoshi tracking-wide h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
+      <ShimmerButton
         href="/catalogo"
+        className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold font-satoshi tracking-wide h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
       >
         <span className="material-symbols-outlined">search</span>
         Explorar Inventario
-      </a>
+      </ShimmerButton>
       <a
         className="inline-flex bg-[#13C1AC] hover:bg-[#11AE9A] text-white text-base font-bold font-satoshi tracking-wide h-14 px-8 rounded-lg transition-all shadow-lg shadow-teal-500/30 items-center justify-center gap-2"
         href="https://es.wallapop.com/user/navarroa-334767045"
@@ -83,9 +111,10 @@ export default function Hero() {
     </div>
   );
 
-  // 3D Tilt Card Component
+  // 3D Tilt Card Component with Spotlight Effect
   const TiltCard = ({ card, index }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -104,6 +133,11 @@ export default function Hero() {
       const centerY = rect.top + rect.height / 2;
       x.set(event.clientX - centerX);
       y.set(event.clientY - centerY);
+
+      // Calculate mouse position relative to card for spotlight
+      const relativeX = event.clientX - rect.left;
+      const relativeY = event.clientY - rect.top;
+      setMousePosition({ x: relativeX, y: relativeY });
     };
 
     const handleMouseLeave = () => {
@@ -161,6 +195,16 @@ export default function Hero() {
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         />
+
+        {/* Spotlight Effect - Premium Glass Surface */}
+        {isHovered && (
+          <div
+            className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"
+            style={{
+              background: `radial-gradient(circle 150px at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,255,255,0.15), transparent 70%)`,
+            }}
+          />
+        )}
       </div>
     );
   };
