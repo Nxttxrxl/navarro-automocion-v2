@@ -572,72 +572,107 @@ export default function StockGrid() {
                             : 'flex flex-row'
                         }`}
                       >
-                        {/* Clickable Image that links to detail page */}
-                        <Link
-                          to={`/catalogo/${slug}`}
-                          className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden border-b md:border-b-0 border-slate-100 shrink-0 ${
-                            viewMode === 'grid'
-                              ? 'aspect-video w-full'
-                              : 'w-24 sm:w-32 md:w-80 lg:w-96 aspect-square md:aspect-[4/3] border-r self-start'
-                          }`}
+                        {/* Left Column: Image (and Buttons on Mobile List View) */}
+                        <div
+                          className={`${viewMode === 'list' ? 'flex flex-col w-36 xs:w-40 shrink-0 border-r border-slate-100' : 'w-full'}`}
                         >
-                          {car.imagen ? (
-                            <picture className="w-full h-full">
-                              <source
-                                srcSet={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen.replace(/\.[^/.]+$/, '')}.webp`}
-                                type="image/webp"
-                              />
-                              <img
-                                src={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen}`}
-                                alt={`${car.marca} ${car.modelo}`}
-                                className={`w-full h-full object-cover transition-all ${car.estado === 'Vendido' ? 'grayscale opacity-70' : ''}`}
-                                loading="lazy"
-                                decoding="async"
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = '/logo_nuevo_rect_png.png';
-                                }}
-                              />
-                            </picture>
-                          ) : (
-                            <div className="flex flex-col items-center justify-center gap-3 text-slate-300">
-                              <span className="text-2xl font-black tracking-tighter text-slate-400">
-                                AUTOMOCIÓN
-                              </span>
-                              <span className="material-symbols-outlined text-5xl">
-                                directions_car
-                              </span>
-                            </div>
-                          )}
+                          {/* Clickable Image that links to detail page */}
+                          <Link
+                            to={`/catalogo/${slug}`}
+                            className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden shrink-0 block ${
+                              viewMode === 'grid'
+                                ? 'aspect-video w-full border-b border-slate-100'
+                                : 'w-full aspect-[4/3] md:w-80 lg:w-96 md:border-r md:border-slate-100'
+                            }`}
+                          >
+                            {car.imagen ? (
+                              <picture className="w-full h-full">
+                                <source
+                                  srcSet={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen.replace(/\.[^/.]+$/, '')}.webp`}
+                                  type="image/webp"
+                                />
+                                <img
+                                  src={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen}`}
+                                  alt={`${car.marca} ${car.modelo}`}
+                                  className={`w-full h-full object-cover transition-all ${car.estado === 'Vendido' ? 'grayscale opacity-70' : ''}`}
+                                  loading="lazy"
+                                  decoding="async"
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = '/logo_nuevo_rect_png.png';
+                                  }}
+                                />
+                              </picture>
+                            ) : (
+                              <div className="flex flex-col items-center justify-center gap-3 text-slate-300 h-full">
+                                <span className="text-2xl font-black tracking-tighter text-slate-400">
+                                  AUTOMOCIÓN
+                                </span>
+                                <span className="material-symbols-outlined text-5xl">
+                                  directions_car
+                                </span>
+                              </div>
+                            )}
 
-                          {/* Badge Estado */}
-                          {car.estado && car.estado !== 'Activo' && (
-                            <div
-                              className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10 ${
-                                car.estado === 'Vendido'
-                                  ? 'bg-red-500 text-white'
-                                  : car.estado === 'Reservado'
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-green-500 text-white'
-                              }`}
-                            >
-                              {car.estado.toUpperCase()}
+                            {/* Badge Estado */}
+                            {car.estado && car.estado !== 'Activo' && (
+                              <div
+                                className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10 ${
+                                  car.estado === 'Vendido'
+                                    ? 'bg-red-500 text-white'
+                                    : car.estado === 'Reservado'
+                                      ? 'bg-orange-500 text-white'
+                                      : 'bg-green-500 text-white'
+                                }`}
+                              >
+                                {car.estado.toUpperCase()}
+                              </div>
+                            )}
+                          </Link>
+
+                          {/* Mobile List View Buttons (Under Image) */}
+                          {viewMode === 'list' && (
+                            <div className="md:hidden flex flex-col gap-1 p-2 bg-slate-50 flex-grow justify-center border-t border-slate-100">
+                              <a
+                                href={getWhatsAppLink(car, true)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  bookmark
+                                </span>
+                                <span>Reservar</span>
+                              </a>
+                              <a
+                                href={getWhatsAppLink(car, false)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  chat
+                                </span>
+                                <span>Contactar</span>
+                              </a>
                             </div>
                           )}
-                        </Link>
+                        </div>
 
                         {/* Content */}
                         <div
-                          className={`${viewMode === 'list' ? 'p-3 sm:p-4' : 'p-4'} flex-grow flex flex-col`}
+                          className={`${viewMode === 'list' ? 'p-3 flex-grow flex flex-col justify-between' : 'p-4 flex-grow flex flex-col'}`}
                         >
-                          <div className="flex-grow">
+                          <div>
                             <Link to={`/catalogo/${slug}`}>
                               <div className="flex items-center justify-between mb-1">
-                                <h3 className="text-lg font-black font-satoshi text-slate-900 group-hover:text-primary transition-colors tracking-tight">
+                                <h3 className="text-lg font-black font-satoshi text-slate-900 group-hover:text-primary transition-colors tracking-tight leading-tight">
                                   {car.marca} {car.modelo}
                                 </h3>
                                 {car.year && (
-                                  <span className="text-xs font-bold font-geist px-2 py-1 bg-slate-100 text-slate-700 rounded">
+                                  <span className="text-xs font-bold font-geist px-2 py-1 bg-slate-100 text-slate-700 rounded shrink-0 ml-2">
                                     {car.year}
                                   </span>
                                 )}
@@ -710,57 +745,33 @@ export default function StockGrid() {
                             </div>
                           </div>
 
-                          {/* Dual Buttons */}
-                          <div className="mt-auto grid grid-cols-2 gap-2">
+                          {/* Dual Buttons (Original Location - Hidden on Mobile List Mode) */}
+                          <div
+                            className={`mt-auto grid grid-cols-2 gap-2 ${viewMode === 'list' ? 'hidden md:grid' : 'grid'}`}
+                          >
                             <a
                               href={getWhatsAppLink(car, true)}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className={`bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md ${
-                                viewMode === 'list'
-                                  ? 'py-2 px-3 text-sm'
-                                  : 'py-3 px-4'
-                              }`}
+                              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
                             >
-                              <span
-                                className={`material-symbols-outlined ${viewMode === 'list' ? 'text-[18px]' : 'text-[20px]'}`}
-                              >
+                              <span className="material-symbols-outlined text-[20px]">
                                 bookmark
                               </span>
-                              <span
-                                className={
-                                  viewMode === 'list'
-                                    ? 'inline md:hidden'
-                                    : 'hidden sm:inline'
-                                }
-                              >
-                                Reservar
-                              </span>
+                              <span className="hidden sm:inline">Reservar</span>
                             </a>
                             <a
                               href={getWhatsAppLink(car, false)}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className={`bg-primary hover:bg-blue-700 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md ${
-                                viewMode === 'list'
-                                  ? 'py-2 px-3 text-sm'
-                                  : 'py-3 px-4'
-                              }`}
+                              className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
                             >
-                              <span
-                                className={`material-symbols-outlined ${viewMode === 'list' ? 'text-[18px]' : 'text-[20px]'}`}
-                              >
+                              <span className="material-symbols-outlined text-[20px]">
                                 chat
                               </span>
-                              <span
-                                className={
-                                  viewMode === 'list'
-                                    ? 'inline md:hidden'
-                                    : 'hidden sm:inline'
-                                }
-                              >
+                              <span className="hidden sm:inline">
                                 Consultar
                               </span>
                             </a>
