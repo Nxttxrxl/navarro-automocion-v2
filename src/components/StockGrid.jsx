@@ -647,7 +647,7 @@ export default function StockGrid() {
                               </p>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 mb-4">
+                            <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 mb-4">
                               <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
                                 <span className="material-symbols-outlined text-[18px] text-primary mb-1">
                                   engineering
@@ -671,6 +671,33 @@ export default function StockGrid() {
                                 <span className="font-medium">
                                   {car.transmision || 'Manual'}
                                 </span>
+                              </div>
+                              <div className="flex flex-col items-center p-2 bg-slate-50 rounded">
+                                <span className="material-symbols-outlined text-[18px] text-primary mb-1">
+                                  local_gas_station
+                                </span>
+                                <div className="flex items-center justify-center gap-1.5 w-full">
+                                  <span className="font-medium truncate">
+                                    {car.combustible || 'N/A'}
+                                  </span>
+                                  {car.etiqueta &&
+                                    (() => {
+                                      const labelOption = LABEL_OPTIONS.find(
+                                        (opt) => opt.value === car.etiqueta,
+                                      );
+                                      if (labelOption?.image) {
+                                        return (
+                                          <img
+                                            src={labelOption.image}
+                                            alt={car.etiqueta}
+                                            className="h-4 w-auto object-contain"
+                                            title={`Etiqueta ${labelOption.label}`}
+                                          />
+                                        );
+                                      }
+                                      return null;
+                                    })()}
+                                </div>
                               </div>
                             </div>
                           </div>
