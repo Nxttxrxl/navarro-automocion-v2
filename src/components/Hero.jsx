@@ -7,8 +7,7 @@ export default function Hero() {
     'Nuestros coches te pueden gustar más o menos, pero hay una cosa garantizada: ';
   const HERO_HIGHLIGHT = 'Máxima honestidad';
   const HERO_SUBTITLE_END = ' y la mejor relación calidad/precio.';
-  const HERO_DESCRIPTION =
-    'Especialistas en la selección de vehículos premium con revisión certificada y trato directo.';
+  const HERO_DESCRIPTION = '';
 
   // Trust Cards Data
   const trustCards = [
@@ -56,8 +55,8 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: 0.05,
+        delayChildren: 0,
       },
     },
   };
