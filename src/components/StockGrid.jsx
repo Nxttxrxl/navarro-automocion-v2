@@ -178,6 +178,8 @@ export default function StockGrid() {
         return sorted.sort((a, b) => (b.year || 0) - (a.year || 0));
       case 'km-asc':
         return sorted.sort((a, b) => (a.km || 0) - (b.km || 0));
+      case 'ano-asc':
+        return sorted.sort((a, b) => (a.year || 0) - (b.year || 0));
       case 'destacados':
       default:
         return sorted;
@@ -493,15 +495,25 @@ export default function StockGrid() {
                 <select
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 focus:ring-2 focus:ring-[#004A99] focus:border-transparent transition-all bg-white"
+                  className="w-full pl-4 pr-10 py-3 border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none bg-white cursor-pointer shadow-sm font-medium"
                 >
-                  <option value="destacados">Destacados</option>
-                  <option value="precio-asc">Precio: Menor a Mayor</option>
-                  <option value="precio-desc">Precio: Mayor a Menor</option>
-                  <option value="anio-desc">Más nuevos</option>
-                  <option value="km-asc">Menos kilómetros</option>
+                  <option value="destacados">Ordenar por: Destacados</option>
+                  <option value="precio-asc">
+                    Ordenar por: Precio (Bajo a Alto)
+                  </option>
+                  <option value="precio-desc">
+                    Ordenar por: Precio (Alto a Bajo)
+                  </option>
+                  <option value="anio-desc">
+                    Ordenar por: Año (Más Nuevos)
+                  </option>
+                  <option value="ano-asc">
+                    Ordenar por: Año (Más Antiguos)
+                  </option>
+                  <option value="km-asc">
+                    Ordenar por: Kilometraje (Bajo a Alto)
+                  </option>
                 </select>
-
                 {/* View Mode Toggle */}
                 <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg p-1">
                   <button
@@ -574,7 +586,7 @@ export default function StockGrid() {
                       >
                         {/* Left Column: Image (and Buttons on Mobile List View) */}
                         <div
-                          className={`${viewMode === 'list' ? 'flex flex-col w-36 xs:w-40 shrink-0 border-r border-slate-100' : 'w-full'}`}
+                          className={`${viewMode === 'list' ? 'flex flex-col w-36 xs:w-40 md:w-80 lg:w-96 shrink-0 border-r border-slate-100' : 'w-full'}`}
                         >
                           {/* Clickable Image that links to detail page */}
                           <Link
@@ -582,7 +594,7 @@ export default function StockGrid() {
                             className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden shrink-0 block ${
                               viewMode === 'grid'
                                 ? 'aspect-video w-full border-b border-slate-100'
-                                : 'w-full aspect-[4/3] md:w-80 lg:w-96 md:border-r md:border-slate-100'
+                                : 'w-full aspect-[4/3] md:border-r md:border-slate-100'
                             }`}
                           >
                             {car.imagen ? (
@@ -760,7 +772,7 @@ export default function StockGrid() {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md h-full"
                             >
                               <span className="material-symbols-outlined text-[20px]">
                                 bookmark
@@ -772,7 +784,7 @@ export default function StockGrid() {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                              className="bg-primary hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md h-full"
                             >
                               <span className="material-symbols-outlined text-[20px]">
                                 chat
