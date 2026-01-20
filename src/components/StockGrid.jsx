@@ -481,15 +481,8 @@ export default function StockGrid() {
           </div>
 
           <div className="md:w-3/4">
-            {/* Results Count, Sort and View Toggle */}
-            <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="text-sm text-slate-600">
-                <span className="font-semibold text-slate-900">
-                  {sortedCars.length}
-                </span>{' '}
-                unidades disponibles para entrega inmediata
-              </div>
-
+            {/* Sort and View Toggle */}
+            <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex w-full sm:w-auto items-center justify-between sm:justify-start gap-3">
                 {/* Sort Dropdown */}
                 <select
@@ -550,6 +543,14 @@ export default function StockGrid() {
                   </button>
                 </div>
               </div>
+            </div>
+
+            {/* Results Count - Now below sort/view controls */}
+            <div className="mb-6 text-sm text-slate-600">
+              <span className="font-semibold text-slate-900">
+                {sortedCars.length}
+              </span>{' '}
+              unidades disponibles para entrega inmediata
             </div>
 
             {sortedCars.length === 0 ? (
@@ -642,20 +643,32 @@ export default function StockGrid() {
                             )}
                           </Link>
 
-                          {/* Mobile List View Buttons (Under Image) */}
+                          {/* Mobile List View Buttons (Under Image) - Row Layout */}
                           {viewMode === 'list' && (
-                            <div className="md:hidden flex flex-col gap-1 p-2 bg-slate-50 flex-grow justify-center border-t border-slate-100">
+                            <div className="md:hidden grid grid-cols-2 gap-2 p-2 bg-slate-50 border-t border-slate-100">
                               <a
                                 href={getWhatsAppLink(car, true)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full h-full"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-2 rounded flex items-center justify-center gap-1 shadow-sm"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
                                   bookmark
                                 </span>
                                 <span>Reservar</span>
+                              </a>
+                              <a
+                                href={getWhatsAppLink(car, false)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-2 rounded flex items-center justify-center gap-1 shadow-sm"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  chat
+                                </span>
+                                <span>Contactar</span>
                               </a>
                             </div>
                           )}
@@ -744,24 +757,6 @@ export default function StockGrid() {
                               </p>
                             </div>
                           </div>
-
-                          {/* Mobile List View Contact Button (Right Column) */}
-                          {viewMode === 'list' && (
-                            <div className="md:hidden mt-auto pt-2 border-t border-slate-100">
-                              <a
-                                href={getWhatsAppLink(car, false)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full h-full"
-                              >
-                                <span className="material-symbols-outlined text-[16px]">
-                                  chat
-                                </span>
-                                <span>Contactar</span>
-                              </a>
-                            </div>
-                          )}
 
                           {/* Dual Buttons (Original Location - Hidden on Mobile List Mode) */}
                           <div
