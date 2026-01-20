@@ -100,13 +100,13 @@ export default function Services() {
 
   return (
     <section
-      className="relative py-24 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-50 border-y border-gray-100 overflow-hidden"
+      className="relative py-24 bg-slate-100 border-y border-white/20 overflow-hidden"
       id="servicios"
       ref={ref}
     >
       {/* Animated Mesh Gradients */}
       <motion.div
-        className="absolute top-1/4 left-0 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl"
+        className="absolute top-1/4 left-0 w-96 h-96 bg-blue-300/40 rounded-full blur-[100px]"
         animate={{
           x: [0, 40, 0],
           y: [0, -30, 0],
@@ -119,7 +119,7 @@ export default function Services() {
         }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-300/15 rounded-full blur-3xl"
+        className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-300/30 rounded-full blur-[100px]"
         animate={{
           x: [0, -50, 0],
           y: [0, 40, 0],
