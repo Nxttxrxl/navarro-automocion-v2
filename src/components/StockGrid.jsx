@@ -638,24 +638,12 @@ export default function StockGrid() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full h-full"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
                                   bookmark
                                 </span>
                                 <span>Reservar</span>
-                              </a>
-                              <a
-                                href={getWhatsAppLink(car, false)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full"
-                              >
-                                <span className="material-symbols-outlined text-[16px]">
-                                  chat
-                                </span>
-                                <span>Contactar</span>
                               </a>
                             </div>
                           )}
@@ -744,6 +732,24 @@ export default function StockGrid() {
                               </p>
                             </div>
                           </div>
+
+                          {/* Mobile List View Contact Button (Right Column) */}
+                          {viewMode === 'list' && (
+                            <div className="md:hidden mt-auto pt-2 border-t border-slate-100">
+                              <a
+                                href={getWhatsAppLink(car, false)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-primary hover:bg-blue-700 text-white font-bold text-xs py-2 px-1 rounded flex items-center justify-center gap-1 shadow-sm w-full h-full"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  chat
+                                </span>
+                                <span>Contactar</span>
+                              </a>
+                            </div>
+                          )}
 
                           {/* Dual Buttons (Original Location - Hidden on Mobile List Mode) */}
                           <div
