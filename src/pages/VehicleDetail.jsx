@@ -242,8 +242,10 @@ export default function VehicleDetail() {
                       local_gas_station
                     </span>
                     <div>
-                      <div className="text-xs text-slate-500">Combustible</div>
-                      <div className="font-semibold text-slate-900">
+                      <div className="text-xs font-geist text-slate-500">
+                        Combustible
+                      </div>
+                      <div className="font-bold font-geist text-slate-900">
                         {car.combustible || 'N/A'}
                       </div>
                     </div>
@@ -255,8 +257,10 @@ export default function VehicleDetail() {
                       speed
                     </span>
                     <div>
-                      <div className="text-xs text-slate-500">Potencia</div>
-                      <div className="font-semibold text-slate-900">
+                      <div className="text-xs font-geist text-slate-500">
+                        Potencia
+                      </div>
+                      <div className="font-bold font-geist text-slate-900">
                         {car.cv || 'N/A'} CV
                       </div>
                     </div>
@@ -268,8 +272,10 @@ export default function VehicleDetail() {
                       settings_suggest
                     </span>
                     <div>
-                      <div className="text-xs text-slate-500">Transmisión</div>
-                      <div className="font-semibold text-slate-900">
+                      <div className="text-xs font-geist text-slate-500">
+                        Transmisión
+                      </div>
+                      <div className="font-bold font-geist text-slate-900">
                         {car.transmision || 'Manual'}
                       </div>
                     </div>
@@ -281,8 +287,10 @@ export default function VehicleDetail() {
                       add_road
                     </span>
                     <div>
-                      <div className="text-xs text-slate-500">Kilometraje</div>
-                      <div className="font-semibold text-slate-900">
+                      <div className="text-xs font-geist text-slate-500">
+                        Kilometraje
+                      </div>
+                      <div className="font-bold font-geist text-slate-900">
                         {car.km?.toLocaleString('es-ES') || 0} km
                       </div>
                     </div>
@@ -294,8 +302,10 @@ export default function VehicleDetail() {
                       eco
                     </span>
                     <div>
-                      <div className="text-xs text-slate-500">Etiqueta</div>
-                      <div className="font-semibold text-slate-900">
+                      <div className="text-xs font-geist text-slate-500">
+                        Etiqueta
+                      </div>
+                      <div className="font-bold font-geist text-slate-900">
                         {car.etiqueta || 'Sin Etiqueta'}
                       </div>
                     </div>
@@ -306,7 +316,7 @@ export default function VehicleDetail() {
               {/* Description Section */}
               {car.descripcion && (
                 <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                  <h2 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wide flex items-center gap-2">
+                  <h2 className="text-sm font-bold font-satoshi text-slate-900 mb-4 uppercase tracking-wide flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary text-xl">
                       description
                     </span>
@@ -343,7 +353,7 @@ export default function VehicleDetail() {
 
               {/* Compromiso Navarro Section (Moved here) */}
               <div className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl p-6 border border-blue-100 shadow-sm">
-                <h2 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase tracking-wide">
+                <h2 className="text-sm font-bold font-satoshi text-slate-900 mb-4 flex items-center gap-2 uppercase tracking-wide">
                   <span className="material-symbols-outlined text-primary text-xl">
                     verified
                   </span>
@@ -355,10 +365,10 @@ export default function VehicleDetail() {
                       check_circle
                     </span>
                     <div>
-                      <div className="font-semibold text-slate-900 text-sm">
+                      <div className="font-bold font-satoshi text-slate-900 text-sm">
                         Revisión Certificada
                       </div>
-                      <div className="text-xs text-slate-600">
+                      <div className="text-xs font-medium font-satoshi text-slate-600">
                         Puesta a punto completa
                       </div>
                     </div>
@@ -368,10 +378,10 @@ export default function VehicleDetail() {
                       check_circle
                     </span>
                     <div>
-                      <div className="font-semibold text-slate-900 text-sm">
+                      <div className="font-bold font-satoshi text-slate-900 text-sm">
                         Garantía de 12 meses
                       </div>
-                      <div className="text-xs text-slate-600">
+                      <div className="text-xs font-medium font-satoshi text-slate-600">
                         Cobertura nacional incluida
                       </div>
                     </div>
@@ -381,10 +391,10 @@ export default function VehicleDetail() {
                       check_circle
                     </span>
                     <div>
-                      <div className="font-semibold text-slate-900 text-sm">
+                      <div className="font-bold font-satoshi text-slate-900 text-sm">
                         Transparencia Total
                       </div>
-                      <div className="text-xs text-slate-600">
+                      <div className="text-xs font-medium font-satoshi text-slate-600">
                         Sin costes ocultos ni sorpresas
                       </div>
                     </div>
@@ -397,7 +407,7 @@ export default function VehicleDetail() {
                 <div className="grid grid-cols-2 gap-3">
                   <Link
                     to="/catalogo"
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-900 font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all"
+                    className="bg-slate-200 hover:bg-slate-300 text-slate-900 font-bold font-satoshi py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all"
                   >
                     <span className="material-symbols-outlined text-[20px]">
                       arrow_back
@@ -409,7 +419,7 @@ export default function VehicleDetail() {
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold font-satoshi tracking-wide py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
                   >
                     <span className="material-symbols-outlined text-[20px]">
                       bookmark
@@ -422,7 +432,7 @@ export default function VehicleDetail() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-[#004A99] hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
+                  className="w-full bg-[#004A99] hover:bg-blue-800 text-white font-bold font-satoshi tracking-wide py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg"
                 >
                   <span className="material-symbols-outlined text-[24px]">
                     chat
