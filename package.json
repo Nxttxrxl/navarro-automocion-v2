@@ -14,6 +14,8 @@
     "csv-parser": "^3.2.0",
     "csv-writer": "^1.6.0",
     "dotenv": "^17.2.3",
+    "framer-motion": "^12.27.1",
+    "lucide-react": "^0.562.0",
     "rc-slider": "^11.1.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
