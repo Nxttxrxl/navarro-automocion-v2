@@ -680,23 +680,6 @@ export default function StockGrid() {
                                   <span className="font-medium truncate">
                                     {car.combustible || 'N/A'}
                                   </span>
-                                  {car.etiqueta &&
-                                    (() => {
-                                      const labelOption = LABEL_OPTIONS.find(
-                                        (opt) => opt.value === car.etiqueta,
-                                      );
-                                      if (labelOption?.image) {
-                                        return (
-                                          <img
-                                            src={labelOption.image}
-                                            alt={car.etiqueta}
-                                            className="h-4 w-auto object-contain"
-                                            title={`Etiqueta ${labelOption.label}`}
-                                          />
-                                        );
-                                      }
-                                      return null;
-                                    })()}
                                 </div>
                               </div>
                             </div>
