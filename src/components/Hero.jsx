@@ -45,6 +45,8 @@ export default function Hero() {
     },
   ];
 
+  const springConfig = { stiffness: 100, damping: 20 };
+
   // Reusable Buttons Component
   const HeroButtons = () => (
     <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
