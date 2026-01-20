@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
+import { fetchPublicCars } from "../services/carService";
 import { generateSlug } from "../utils/slugUtils";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -56,21 +56,18 @@ export default function StockGrid() {
     const [etiquetaSeleccionada, setEtiquetaSeleccionada] = useState("");
 
     useEffect(() => {
-        async function fetchCars() {
-            const { data, error } = await supabase.from("coches").select("*");
-            if (error) {
+        async function loadCars() {
+            try {
+                const data = await fetchPublicCars();
+                setCars(data);
+            } catch (error) {
                 console.error("Error fetching cars:", error);
-            } else {
-                // Filter out cars without images
-                const carsWithImages = (data || []).filter(car =>
-                    car.imagen && car.imagen.trim().length > 0
-                );
-                setCars(carsWithImages);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         }
 
-        fetchCars();
+        loadCars();
     }, []);
 
     // Get unique brands from DB
