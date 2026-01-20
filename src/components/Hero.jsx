@@ -9,10 +9,6 @@ export default function Hero() {
   const HERO_SUBTITLE_END = ' y la mejor relación calidad/precio.';
   const HERO_DESCRIPTION =
     '20 años seleccionando los mejores vehículos en Tarragona. Revisados a fondo para que tú solo te preocupes de conducir.';
-  const STAT_1_NUMBER = '+1000';
-  const STAT_1_LABEL = 'de coches vendidos';
-  const STAT_2_NUMBER = '4.9/5';
-  const STAT_2_LABEL = 'Valoración Clientes';
 
   // Trust Cards Data
   const trustCards = [
@@ -75,24 +71,34 @@ export default function Hero() {
     },
   };
 
-  // Floating animation (different durations for organic feel)
-  const floatingVariants = (duration) => ({
-    animate: {
-      y: [0, -8, 0],
-      transition: {
-        duration: duration,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
-    },
-  });
+  // Reusable Buttons Component
+  const HeroButtons = () => (
+    <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
+      <a
+        className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
+        href="/catalogo"
+      >
+        <span className="material-symbols-outlined">search</span>
+        Explorar Inventario
+      </a>
+      <a
+        className="inline-flex bg-[#13C1AC] hover:bg-[#11AE9A] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-teal-500/30 items-center justify-center gap-2"
+        href="https://es.wallapop.com/user/navarroa-334767045"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="material-symbols-outlined">storefront</span>
+        Ver Catálogo Wallapop
+      </a>
+    </div>
+  );
 
   return (
     <section className="relative bg-[#F9FAFB] overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-          {/* Text Column - UNCHANGED */}
-          <div className="lg:w-1/2 flex flex-col gap-8 z-10">
+          {/* Text Column */}
+          <div className="lg:w-1/2 flex flex-col gap-8 z-10 w-full">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 w-fit">
               <span className="size-2 rounded-full bg-primary animate-pulse"></span>
               <span className="text-xs font-semibold text-primary tracking-wide uppercase">
@@ -113,44 +119,15 @@ export default function Hero() {
               {HERO_DESCRIPTION}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
-              <a
-                className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
-                href="/catalogo"
-              >
-                <span className="material-symbols-outlined">search</span>
-                Explorar Inventario
-              </a>
-              <a
-                className="inline-flex bg-[#13C1AC] hover:bg-[#11AE9A] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-teal-500/30 items-center justify-center gap-2"
-                href="https://es.wallapop.com/user/navarroa-334767045"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="material-symbols-outlined">storefront</span>
-                Ver Catálogo Wallapop
-              </a>
-            </div>
-
-            <div className="flex items-center gap-8 mt-6 pt-8 border-t border-slate-200">
-              <div>
-                <p className="text-3xl font-bold text-[#1F2937]">
-                  {STAT_1_NUMBER}
-                </p>
-                <p className="text-sm text-slate-500">{STAT_1_LABEL}</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-[#1F2937]">
-                  {STAT_2_NUMBER}
-                </p>
-                <p className="text-sm text-slate-500">{STAT_2_LABEL}</p>
-              </div>
+            {/* Desktop Buttons (Hidden on mobile) */}
+            <div className="hidden lg:block">
+              <HeroButtons />
             </div>
           </div>
 
-          {/* Trust Grid Column - NEW ANIMATED DESIGN */}
+          {/* Trust Grid Column */}
           <motion.div
-            className="lg:w-1/2 relative z-0"
+            className="lg:w-1/2 relative z-0 w-full"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -175,10 +152,12 @@ export default function Hero() {
                   {/* Stat Card */}
                   {card.type === 'stat' && (
                     <>
-                      <p className={`text-5xl font-black ${card.color}`}>
+                      <p
+                        className={`text-3xl sm:text-5xl font-black ${card.color}`}
+                      >
                         {card.number}
                       </p>
-                      <p className="text-sm text-slate-600 font-medium">
+                      <p className="text-xs sm:text-sm text-slate-600 font-medium">
                         {card.label}
                       </p>
                     </>
@@ -188,12 +167,16 @@ export default function Hero() {
                   {card.type === 'rating' && (
                     <>
                       <div className="flex items-center gap-2">
-                        <p className={`text-5xl font-black ${card.color}`}>
+                        <p
+                          className={`text-3xl sm:text-5xl font-black ${card.color}`}
+                        >
                           {card.number}
                         </p>
-                        <span className="text-3xl">{card.icon}</span>
+                        <span className="text-2xl sm:text-3xl">
+                          {card.icon}
+                        </span>
                       </div>
-                      <p className="text-sm text-slate-600 font-medium">
+                      <p className="text-xs sm:text-sm text-slate-600 font-medium">
                         {card.label}
                       </p>
                     </>
@@ -203,10 +186,10 @@ export default function Hero() {
                   {(card.type === 'guarantee' || card.type === 'service') && (
                     <>
                       <card.icon
-                        className="w-12 h-12 text-[#004A99]"
+                        className="w-8 h-8 sm:w-12 sm:h-12 text-[#004A99]"
                         strokeWidth={1.5}
                       />
-                      <p className="text-sm text-slate-900 font-bold leading-tight">
+                      <p className="text-xs sm:text-sm text-slate-900 font-bold leading-tight">
                         {card.title}
                       </p>
                     </>
@@ -218,6 +201,11 @@ export default function Hero() {
               ))}
             </div>
           </motion.div>
+
+          {/* Mobile Buttons (Visible only on mobile, after Grid) */}
+          <div className="lg:hidden w-full">
+            <HeroButtons />
+          </div>
         </div>
       </div>
 
