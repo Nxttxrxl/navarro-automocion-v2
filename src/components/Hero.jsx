@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ShieldCheck, Wrench } from 'lucide-react';
 
 export default function Hero() {
   // Textos blindados - NO MODIFICAR
@@ -47,29 +47,13 @@ export default function Hero() {
     },
   ];
 
-  // Spring physics configuration
-  const springConfig = { stiffness: 100, damping: 20 };
-
-  // Animation variants with spring
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        ...springConfig,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -83,18 +67,15 @@ export default function Hero() {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
-        ...springConfig,
+        duration: 0.5,
+        ease: 'easeOut',
       },
     },
   };
 
   // Reusable Buttons Component
   const HeroButtons = () => (
-    <motion.div
-      className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto"
-      variants={textVariants}
-    >
+    <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
       <a
         className="inline-flex bg-[#004A99] hover:bg-[#003d7a] text-white text-base font-bold h-14 px-8 rounded-lg transition-all shadow-lg shadow-[#004A99]/30 items-center justify-center gap-2"
         href="/catalogo"
@@ -111,207 +92,157 @@ export default function Hero() {
         <span className="material-symbols-outlined">storefront</span>
         Ver Catálogo Wallapop
       </a>
-    </motion.div>
+    </div>
   );
 
-  // 3D Tilt Card Component
-  const TiltCard = ({ card, index }) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    const rotateX = useSpring(
-      useTransform(y, [-100, 100], [10, -10]),
-      springConfig,
-    );
-    const rotateY = useSpring(
-      useTransform(x, [-100, 100], [-10, 10]),
-      springConfig,
-    );
-
-    const handleMouseMove = (event) => {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      x.set(event.clientX - centerX);
-      y.set(event.clientY - centerY);
-    };
-
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-      x.set(0);
-      y.set(0);
-    };
-
-    return (
-      <motion.div
-        variants={cardVariants}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d',
-        }}
-        whileHover={{
-          scale: 1.05,
-          transition: { type: 'spring', ...springConfig },
-        }}
-        className="bg-white/40 backdrop-blur-xl rounded-2xl shadow-lg p-6 border border-white/20 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden will-change-transform"
-      >
-        {/* Stat Card */}
-        {card.type === 'stat' && (
-          <>
-            <p className={`text-3xl sm:text-5xl font-black ${card.color}`}>
-              {card.number}
-            </p>
-            <p className="text-xs sm:text-sm text-slate-600 font-medium">
-              {card.label}
-            </p>
-          </>
-        )}
-
-        {/* Rating Card */}
-        {card.type === 'rating' && (
-          <>
-            <div className="flex items-center gap-2">
-              <p className={`text-3xl sm:text-5xl font-black ${card.color}`}>
-                {card.number}
-              </p>
-              <span className="text-2xl sm:text-3xl">{card.icon}</span>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-600 font-medium">
-              {card.label}
-            </p>
-          </>
-        )}
-
-        {/* Hover glow effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20 opacity-0 rounded-2xl"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
-      </motion.div>
-    );
-  };
-
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
-      {/* Animated Mesh Gradients */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl"
-        animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl"
-        animate={{
-          x: [0, -30, 0],
-          y: [0, -50, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-      <motion.div
-        className="absolute top-1/2 right-0 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"
-        animate={{
-          x: [0, -40, 0],
-          y: [0, 40, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{
-          duration: 22,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+    <section className="relative bg-[#F9FAFB] overflow-hidden pt-32 pb-24 lg:pt-48 lg:pb-36">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-24">
           {/* Text Column */}
-          <motion.div
-            className="lg:w-1/2 flex flex-col gap-8 z-10 w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 backdrop-blur-sm border border-blue-100/50 w-fit"
-              variants={textVariants}
-            >
+          <div className="lg:w-1/2 flex flex-col gap-8 z-10 w-full">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 w-fit">
               <span className="size-2 rounded-full bg-primary animate-pulse"></span>
               <span className="text-xs font-semibold text-primary tracking-wide uppercase">
                 Calidad Certificada y Trato Directo
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              className="text-[26px] sm:text-[26px] lg:text-[36px] font-extrabold text-[#1F2937] tracking-tight leading-tight"
-              variants={textVariants}
-            >
+            <h1 className="text-[26px] sm:text-[26px] lg:text-[36px] font-extrabold text-[#1F2937] tracking-tight leading-tight">
               {HERO_TITLE}
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#004A99]">
                 {HERO_HIGHLIGHT}
               </span>
               {HERO_SUBTITLE_END}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="text-base lg:text-lg text-slate-500 font-normal leading-relaxed max-w-lg"
-              variants={textVariants}
-            >
+            <p className="text-base lg:text-lg text-slate-500 font-normal leading-relaxed max-w-lg">
               {HERO_DESCRIPTION}
-            </motion.p>
+            </p>
 
             {/* Desktop Buttons (Hidden on mobile) */}
             <div className="hidden lg:block">
               <HeroButtons />
             </div>
-          </motion.div>
+          </div>
 
           {/* Trust Grid Column */}
-          <motion.div
-            className="lg:w-1/2 relative z-0 w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Enhanced atmospheric background */}
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-30 -z-10 pointer-events-none"></div>
+          <div className="lg:w-1/2 relative z-0 w-full">
+            {/* ATMOSPHERE ELEMENTS */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-blue-100/50 blur-3xl opacity-50 rounded-full -z-10 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-20 -z-10 pointer-events-none"></div>
 
-            <div className="grid grid-cols-2 gap-4 h-auto perspective-1000">
-              {trustCards.map((card, index) => (
-                <TiltCard key={card.id} card={card} index={index} />
-              ))}
-            </div>
-          </motion.div>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="relative z-10"
+            >
+              <div className="grid grid-cols-2 gap-4 h-auto">
+                {trustCards.map((card, index) => (
+                  <motion.div
+                    key={card.id}
+                    variants={cardVariants}
+                    animate="animate"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow:
+                        '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                      transition: { duration: 0.2 },
+                    }}
+                    className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-md p-6 border border-white/50 flex flex-col items-center justify-center text-center gap-3 relative overflow-hidden"
+                    style={{
+                      animation: `float-${index} ${3 + index * 0.5}s ease-in-out infinite`,
+                    }}
+                  >
+                    {/* Stat Card */}
+                    {card.type === 'stat' && (
+                      <>
+                        <p
+                          className={`text-3xl sm:text-5xl font-black ${card.color}`}
+                        >
+                          {card.number}
+                        </p>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                          {card.label}
+                        </p>
+                      </>
+                    )}
+
+                    {/* Rating Card */}
+                    {card.type === 'rating' && (
+                      <>
+                        <div className="flex items-center gap-2">
+                          <p
+                            className={`text-3xl sm:text-5xl font-black ${card.color}`}
+                          >
+                            {card.number}
+                          </p>
+                          <span className="text-2xl sm:text-3xl">
+                            {card.icon}
+                          </span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                          {card.label}
+                        </p>
+                      </>
+                    )}
+
+                    {/* Icon Cards (Guarantee & Service) */}
+                    {(card.type === 'guarantee' || card.type === 'service') && (
+                      <>
+                        <card.icon
+                          className="w-8 h-8 sm:w-12 sm:h-12 text-[#004A99]"
+                          strokeWidth={1.5}
+                        />
+                        <div className="text-center">
+                          <p className="text-sm font-bold text-slate-900 leading-tight">
+                            {card.title}
+                          </p>
+                          {card.subtitle && (
+                            <p className="text-xs text-slate-500 font-medium mt-1">
+                              {card.subtitle}
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Subtle gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Mobile Buttons (Visible only on mobile, after Grid) */}
-          <motion.div
-            className="lg:hidden w-full"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="lg:hidden w-full">
             <HeroButtons />
-          </motion.div>
+          </div>
         </div>
       </div>
+
+      {/* CSS Keyframes for floating animation */}
+      <style>{`
+                @keyframes float-0 {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-8px); }
+                }
+                @keyframes float-1 {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                }
+                @keyframes float-2 {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-6px); }
+                }
+                @keyframes float-3 {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-12px); }
+                }
+            `}</style>
     </section>
   );
 }
