@@ -110,12 +110,12 @@ export default function VehicleDetail() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     {/* Mobile Header (Visible only on mobile) */}
                     <div className="lg:hidden bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6">
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-baseline gap-3 mb-2">
                             <h1 className="text-2xl font-bold text-slate-900 leading-tight">
                                 {car.marca} {car.modelo}
                             </h1>
                             {car.year && (
-                                <span className="text-2xl font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">
+                                <span className="text-xl font-medium text-slate-800 shrink-0">
                                     {car.year}
                                 </span>
                             )}
@@ -193,6 +193,8 @@ export default function VehicleDetail() {
                                 )}
                             </div>
 
+
+
                             {/* Technical Grid (Moved here) */}
                             <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                                 <h2 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wide">Especificaciones</h2>
@@ -254,18 +256,31 @@ export default function VehicleDetail() {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Description Section */}
+                            {car.descripcion && (
+                                <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                                    <h2 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wide flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary text-xl">description</span>
+                                        Descripción
+                                    </h2>
+                                    <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                                        {car.descripcion}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         {/* Right Column - Vehicle Info (Narrower: col-span-2 = 40%) */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Header (Hidden on Mobile, Visible on Desktop with lg:block) */}
                             <div className="hidden lg:block bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
-                                <div className="flex items-start justify-between mb-4">
+                                <div className="flex items-baseline gap-3 mb-2">
                                     <h1 className="text-2xl font-bold text-slate-900 leading-tight">
                                         {car.marca} {car.modelo}
                                     </h1>
                                     {car.year && (
-                                        <span className="text-2xl font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">
+                                        <span className="text-xl font-medium text-slate-500 shrink-0">
                                             {car.year}
                                         </span>
                                     )}
@@ -288,15 +303,15 @@ export default function VehicleDetail() {
                                     <li className="flex items-start gap-3">
                                         <span className="material-symbols-outlined text-green-600 text-xl mt-0.5">check_circle</span>
                                         <div>
-                                            <div className="font-semibold text-slate-900 text-sm">Revisión en Constantí</div>
-                                            <div className="text-xs text-slate-600">100 puntos de control verificados</div>
+                                            <div className="font-semibold text-slate-900 text-sm">Revisión Certificada</div>
+                                            <div className="text-xs text-slate-600">Puesta a punto completa</div>
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
                                         <span className="material-symbols-outlined text-green-600 text-xl mt-0.5">check_circle</span>
                                         <div>
                                             <div className="font-semibold text-slate-900 text-sm">Garantía de 12 meses</div>
-                                            <div className="text-xs text-slate-600">Cobertura total incluida</div>
+                                            <div className="text-xs text-slate-600">Cobertura nacional incluida</div>
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
