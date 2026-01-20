@@ -496,7 +496,7 @@ export default function StockGrid() {
                                                             <img
                                                                 src={`https://abvcgcemjxbfeibmtsxp.supabase.co/storage/v1/object/public/coches/${car.imagen}`}
                                                                 alt={`${car.marca} ${car.modelo}`}
-                                                                className="w-full h-full object-cover"
+                                                                className={`w-full h-full object-cover transition-all ${car.estado === 'Vendido' ? 'grayscale opacity-70' : ''}`}
                                                                 loading="lazy"
                                                                 decoding="async"
                                                                 onError={(e) => {
@@ -509,6 +509,16 @@ export default function StockGrid() {
                                                         <div className="flex flex-col items-center justify-center gap-3 text-slate-300">
                                                             <span className="text-2xl font-black tracking-tighter text-slate-400">AUTOMOCIÓN</span>
                                                             <span className="material-symbols-outlined text-5xl">directions_car</span>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Badge Estado */}
+                                                    {car.estado && car.estado !== 'Activo' && (
+                                                        <div className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10 ${car.estado === 'Vendido' ? 'bg-red-500 text-white' :
+                                                                car.estado === 'Reservado' ? 'bg-orange-500 text-white' :
+                                                                    'bg-green-500 text-white'
+                                                            }`}>
+                                                            {car.estado.toUpperCase()}
                                                         </div>
                                                     )}
 
