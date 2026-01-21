@@ -156,11 +156,11 @@ export default function Hero() {
         {card.type === 'stat' && (
           <>
             <p
-              className={`text-2xl sm:text-4xl font-black font-satoshi tracking-tighter ${card.color}`}
+              className={`text-2xl sm:text-4xl font-bold font-satoshi tracking-tighter ${card.color}`}
             >
               {card.number}
             </p>
-            <p className="text-[10px] sm:text-xs font-geist font-bold text-slate-600 uppercase tracking-wide">
+            <p className="text-[11px] sm:text-xs font-black text-slate-600 uppercase tracking-tight">
               {card.label}
             </p>
           </>
@@ -171,13 +171,13 @@ export default function Hero() {
           <>
             <div className="flex items-center gap-2">
               <p
-                className={`text-2xl sm:text-4xl font-black font-satoshi tracking-tighter ${card.color}`}
+                className={`text-2xl sm:text-4xl font-bold font-satoshi tracking-tighter ${card.color}`}
               >
                 {card.number}
               </p>
               <span className="text-xl sm:text-2xl">{card.icon}</span>
             </div>
-            <p className="text-[10px] sm:text-xs font-geist font-bold text-slate-600 uppercase tracking-wide">
+            <p className="text-[11px] sm:text-xs font-black text-slate-600 uppercase tracking-tight">
               {card.label}
             </p>
           </>

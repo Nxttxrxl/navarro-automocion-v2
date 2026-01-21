@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.jsx';
+import Services from '../components/Services.jsx';
+import Testimonials from '../components/Testimonials.jsx';
+import Footer from '../components/Footer.jsx';  
+--- 
+
+<BaseLayout>
+  <Hero client:load />
+  <Services client:load />
+  <Testimonials client:load />
+  <!-- <CTA client:load /> -->
+</BaseLayout>

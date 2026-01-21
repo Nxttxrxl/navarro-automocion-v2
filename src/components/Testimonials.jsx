@@ -108,16 +108,18 @@ export default function Testimonials() {
               slidesPerView: 3,
             },
           }}
-          className="testimonials-swiper pb-12"
+          className="testimonials-swiper !pb-24"
         >
           {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index}>
-              <div className="bg-white/60 backdrop-blur-xl p-8 rounded-2xl border border-white/20 h-full shadow-lg">
-                <StarRating />
-                <p className="text-slate-600 mb-6 italic font-satoshi font-medium">
-                  {testimonial.text}
-                </p>
-                <div className="font-bold font-satoshi text-slate-900 tracking-tight">
+            <SwiperSlide key={index} className="flex h-auto">
+              <div className="bg-white/60 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-2xl w-full flex flex-col justify-between min-h-[280px] sm:min-h-[300px]">
+                <div>
+                  <StarRating />
+                  <p className="text-slate-600 mb-6 italic font-satoshi font-medium leading-relaxed">
+                    {testimonial.text}
+                  </p>
+                </div>
+                <div className="font-bold font-satoshi text-slate-900 tracking-tight mt-auto border-t border-slate-200/50 pt-4">
                   — {testimonial.author}
                 </div>
               </div>

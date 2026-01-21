@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StockGrid from '../components/StockGrid.jsx';
+---
+
+<BaseLayout title="Catálogo | Automóviles Navarro">
+  <div class="pt-16 min-h-screen bg-slate-50">
+    <div class="bg-slate-50 pt-8 md:pt-12 pb-6 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-2xl sm:text-3xl font-black font-satoshi text-slate-900 tracking-tight">
+          Oportunidades para cada etapa
+        </h1>
+        <p class="mt-4 text-base sm:text-lg font-satoshi font-medium text-slate-600 max-w-2xl mx-auto">
+          Desde utilitarios económicos hasta deportivos o SUVs totalmente
+          equipados. Sea cual sea tu inversión, cada unidad se entrega
+          revisada y puesta a punto con el mismo nivel de exigencia.
+        </p>
+      </div>
+    </div>
+    <StockGrid client:load />
+  </div>
+</BaseLayout>

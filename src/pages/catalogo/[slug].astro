@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VehicleDetail from '../../components/VehicleDetail.jsx';
+import { supabase } from '../../lib/supabaseClient';
+import { generateSlug } from '../../utils/slugUtils';
+
+export async function getStaticPaths() {
+  const { data: cars } = await supabase.from('coches').select('*');
+  
+  if (!cars) return [];
+  
+  return cars.map(car => ({
+    params: { slug: generateSlug(car) },
+    props: { car }
+  }));
+}
+
+const { car } = Astro.props;
+const { slug } = Astro.params;
+
+const pageTitle = `${car.marca} ${car.modelo} ${car.year || ''} | Automóviles Navarro`;
+---
+
+<BaseLayout title={pageTitle}>
+  <VehicleDetail client:load slug={slug} />
+</BaseLayout>

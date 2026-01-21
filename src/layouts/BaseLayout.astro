@@ -1,0 +1,55 @@
+---
+// src/layouts/BaseLayout.astro
+import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.jsx';
+import '../index.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { 
+  title = "Automóviles Navarro | Compra y Venta de Vehículos de Ocasión",
+  description = "Tu concesionario de confianza en Tarragona para vehículos de ocasión seleccionados. 20 años de experiencia.",
+  image = "/logo_navarro_rect.png"
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+    <meta property="og:type" content="website" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/favicon-dark.png?v=2" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" href="/favicon-light.png?v=2" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=2" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=2" />
+    <link rel="manifest" href="/favicon/site.webmanifest?v=2" />
+  </head>
+  <body class="bg-white text-slate-900">
+    <div class="flex flex-col min-h-screen overflow-x-hidden">
+      <Navbar client:load pathname={pathname} />
+      <main class="flex-grow">
+        <slot />
+      </main>
+      <Footer client:load />
+    </div>
+    <FloatingWhatsApp client:load />
+  </body>
+</html>

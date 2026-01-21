@@ -1,6 +1,16 @@
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400,300&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-sans/style.css');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,800,700,600,500,400,300&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/geist@1.1.0/dist/fonts/geist-sans/style.css');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import 'tailwindcss';
+
+/* Global Font Defaults */
+:root {
+  font-family: 'Satoshi', 'Inter', sans-serif;
+}
+
+body {
+  font-family: 'Satoshi', 'Inter', sans-serif;
+}
 
 /* Custom Theme Variables */
 @theme {
@@ -19,6 +29,7 @@
   --font-satoshi: 'Satoshi', 'Inter', sans-serif;
   --font-geist: 'Geist Sans', 'Inter', sans-serif;
 
+  --font-sans: 'Satoshi', 'Inter', sans-serif;
   --font-display: 'Satoshi', 'Inter', sans-serif;
   --font-body: 'Satoshi', 'Inter', sans-serif;
   --font-data: 'Geist Sans', 'Inter', sans-serif;

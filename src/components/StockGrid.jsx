@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { fetchPublicCars } from '../services/carService';
 import { generateSlug } from '../utils/slugUtils';
 import Slider from 'rc-slider';
@@ -220,7 +219,24 @@ export default function StockGrid() {
         return sorted.sort((a, b) => (a.year || 0) - (b.year || 0));
       case 'destacados':
       default:
-        return sorted;
+        return sorted.sort((a, b) => {
+          // 1. Featured priority
+          if (a.destacado && !b.destacado) return -1;
+          if (!a.destacado && b.destacado) return 1;
+
+          // 2. Status priority (Activo > Reservado > Vendido)
+          const statusOrder = { Activo: 0, Reservado: 1, Vendido: 2 };
+          const statusA = statusOrder[a.estado] ?? 3;
+          const statusB = statusOrder[b.estado] ?? 3;
+
+          if (statusA !== statusB) return statusA - statusB;
+
+          // 3. Fallback to newest added
+          return (
+            new Date(b.created_at || 0).getTime() -
+            new Date(a.created_at || 0).getTime()
+          );
+        });
     }
   }, [filteredCars, sortOption]);
 
@@ -308,7 +324,7 @@ export default function StockGrid() {
               <div className="flex-1">
                 <label
                   htmlFor="marca"
-                  className="block text-sm font-medium text-slate-700 mb-2"
+                  className="block text-sm font-bold font-satoshi text-slate-700 mb-2"
                 >
                   Marca
                 </label>
@@ -328,7 +344,7 @@ export default function StockGrid() {
               </div>
               {/* Price Range Slider */}
               <div className="flex-1">
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold font-satoshi text-slate-700 mb-2">
                   Rango de Precio
                 </label>
                 <div className="px-2 pt-2">
@@ -346,7 +362,7 @@ export default function StockGrid() {
                     ]}
                     railStyle={sliderStyles.railStyle}
                   />
-                  <div className="text-sm text-slate-600 mt-3 text-center font-medium">
+                  <div className="text-sm text-slate-600 mt-3 text-center font-bold font-satoshi">
                     {precioRango[0].toLocaleString('es-ES')}€ -{' '}
                     {precioRango[1].toLocaleString('es-ES')}€
                   </div>
@@ -354,7 +370,7 @@ export default function StockGrid() {
               </div>
               {/* Year Range Slider */}
               <div className="flex-1" style={{ paddingBottom: '1.5rem' }}>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold font-satoshi text-slate-700 mb-2">
                   Rango de Año
                 </label>
                 <div className="px-2 pt-2">
@@ -372,14 +388,14 @@ export default function StockGrid() {
                     ]}
                     railStyle={sliderStyles.railStyle}
                   />
-                  <div className="text-sm text-slate-600 mt-3 text-center font-medium">
+                  <div className="text-sm text-slate-600 mt-3 text-center font-bold font-satoshi">
                     {anioRango[0]} - {anioRango[1]}
                   </div>
                 </div>
               </div>
               {/* Kilometraje Range Slider */}
               <div className="flex-1" style={{ paddingBottom: '1.5rem' }}>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold font-satoshi text-slate-700 mb-2">
                   Kilometraje
                 </label>
                 <div className="px-2 pt-2">
@@ -397,7 +413,7 @@ export default function StockGrid() {
                     ]}
                     railStyle={sliderStyles.railStyle}
                   />
-                  <div className="text-sm text-slate-600 mt-3 text-center font-medium">
+                  <div className="text-sm text-slate-600 mt-3 text-center font-bold font-satoshi">
                     {kmRango[0].toLocaleString('es-ES')} km -{' '}
                     {kmRango[1] >= 350000
                       ? '350,000+'
@@ -408,7 +424,7 @@ export default function StockGrid() {
               </div>
               {/* Potencia (CV) Range Slider */}
               <div className="flex-1" style={{ paddingBottom: '1.5rem' }}>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-bold font-satoshi text-slate-700 mb-2">
                   Potencia (CV)
                 </label>
                 <div className="px-2 pt-2">
@@ -426,7 +442,7 @@ export default function StockGrid() {
                     ]}
                     railStyle={sliderStyles.railStyle}
                   />
-                  <div className="text-sm text-slate-600 mt-3 text-center font-medium">
+                  <div className="text-sm text-slate-600 mt-3 text-center font-bold font-satoshi">
                     {cvRango[0]} CV - {cvRango[1] >= 500 ? '500+' : cvRango[1]}{' '}
                     CV
                   </div>
@@ -436,7 +452,7 @@ export default function StockGrid() {
               <div className="flex-1" style={{ paddingBottom: '1.5rem' }}>
                 <label
                   htmlFor="combustible"
-                  className="block text-sm font-medium text-slate-700 mb-2"
+                  className="block text-sm font-bold font-satoshi text-slate-700 mb-2"
                 >
                   Combustible
                 </label>
@@ -520,8 +536,8 @@ export default function StockGrid() {
 
           <div className="md:w-3/4">
             {/* Sort and View Toggle */}
-            <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex w-full sm:w-auto items-center justify-between sm:justify-start gap-3">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div className="flex flex-1 max-w-[280px] items-center gap-3">
                 {/* Sort Dropdown */}
                 <select
                   value={sortOption}
@@ -545,47 +561,48 @@ export default function StockGrid() {
                     Ordenar por: Kilometraje (Bajo a Alto)
                   </option>
                 </select>
-                {/* View Mode Toggle */}
-                <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg p-1">
-                  <button
-                    onClick={() => {
-                      setViewMode('grid');
-                      setCurrentPage(1);
-                    }}
-                    className={`p-2 rounded transition-all ${
-                      viewMode === 'grid'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'text-slate-400 hover:text-slate-600'
-                    }`}
-                    title="Vista en cuadrícula"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">
-                      grid_view
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setViewMode('list');
-                      setCurrentPage(1);
-                    }}
-                    className={`p-2 rounded transition-all ${
-                      viewMode === 'list'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'text-slate-400 hover:text-slate-600'
-                    }`}
-                    title="Vista en lista"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">
-                      view_list
-                    </span>
-                  </button>
-                </div>
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg p-1 shrink-0">
+                <button
+                  onClick={() => {
+                    setViewMode('grid');
+                    setCurrentPage(1);
+                  }}
+                  className={`p-2 rounded transition-all ${
+                    viewMode === 'grid'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                  title="Vista en cuadrícula"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    grid_view
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
+                    setViewMode('list');
+                    setCurrentPage(1);
+                  }}
+                  className={`p-2 rounded transition-all ${
+                    viewMode === 'list'
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                  title="Vista en lista"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    view_list
+                  </span>
+                </button>
               </div>
             </div>
 
             {/* Results Count - Now below sort/view controls */}
-            <div className="mb-6 text-sm text-slate-600">
-              <span className="font-semibold text-slate-900">
+            <div className="mb-6 text-sm text-slate-500 font-satoshi">
+              <span className="font-bold text-slate-900">
                 {sortedCars.length}
               </span>{' '}
               unidades disponibles
@@ -636,8 +653,8 @@ export default function StockGrid() {
                               className={`${viewMode === 'list' ? 'px-2 py-2' : ''}`}
                             >
                               {/* Clickable Image that links to detail page */}
-                              <Link
-                                to={`/catalogo/${slug}`}
+                              <a
+                                href={`/catalogo/${slug}`}
                                 className={`bg-gradient-to-br from-slate-100 to-slate-50 relative overflow-hidden block rounded-lg ${
                                   viewMode === 'grid'
                                     ? 'aspect-video w-full'
@@ -688,7 +705,7 @@ export default function StockGrid() {
                                     {car.estado.toUpperCase()}
                                   </div>
                                 )}
-                              </Link>
+                              </a>
                             </div>
                           </div>
 
@@ -697,7 +714,7 @@ export default function StockGrid() {
                             className={`${viewMode === 'list' ? 'p-3 flex-grow flex flex-col' : 'p-4 flex-grow flex flex-col'}`}
                           >
                             <div className="flex-grow">
-                              <Link to={`/catalogo/${slug}`}>
+                              <a href={`/catalogo/${slug}`}>
                                 <div className="flex items-center justify-between mb-1">
                                   <h3 className="text-lg font-black font-satoshi text-slate-900 group-hover:text-primary transition-colors tracking-tight leading-tight">
                                     {car.marca} {car.modelo}
@@ -708,14 +725,14 @@ export default function StockGrid() {
                                     </span>
                                   )}
                                 </div>
-                              </Link>
+                              </a>
                               <p className="text-sm text-slate-500 mb-2 pb-2 border-b border-slate-100 truncate">
                                 {car.version}
                               </p>
 
                               {/* Price Display */}
                               <div className="mb-3">
-                                <p className="text-2xl font-bold text-primary">
+                                <p className="text-2xl font-black font-satoshi text-primary">
                                   {formatPrice(car.precio)}
                                 </p>
                               </div>
@@ -728,7 +745,7 @@ export default function StockGrid() {
                                   <span className="material-symbols-outlined text-[18px] text-primary mb-1">
                                     engineering
                                   </span>
-                                  <span className="font-medium text-center">
+                                  <span className="font-bold font-satoshi text-center">
                                     {car.motor || 'N/A'}
                                   </span>
                                 </div>
@@ -736,7 +753,7 @@ export default function StockGrid() {
                                   <span className="material-symbols-outlined text-[18px] text-primary mb-1">
                                     speed
                                   </span>
-                                  <span className="font-medium">
+                                  <span className="font-bold font-satoshi">
                                     {car.cv || 'N/A'} CV
                                   </span>
                                 </div>
@@ -744,7 +761,7 @@ export default function StockGrid() {
                                   <span className="material-symbols-outlined text-[18px] text-primary mb-1">
                                     settings_suggest
                                   </span>
-                                  <span className="font-medium">
+                                  <span className="font-bold font-satoshi">
                                     {car.transmision || 'Manual'}
                                   </span>
                                 </div>
@@ -753,7 +770,7 @@ export default function StockGrid() {
                                     local_gas_station
                                   </span>
                                   <div className="flex items-center justify-center gap-1.5 w-full">
-                                    <span className="font-medium truncate">
+                                    <span className="font-bold font-satoshi truncate">
                                       {car.combustible || 'N/A'}
                                     </span>
                                   </div>

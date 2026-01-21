@@ -1,125 +1,117 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
+export default function Navbar({ pathname: propPathname }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-export default function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation();
+  const currentPath = propPathname || '/';
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY || document.documentElement.scrollTop;
+      setIsScrolled(scrollPos > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    // Close mobile menu when route changes
-    useEffect(() => {
-        setIsOpen(false);
-    }, [location.pathname]);
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [currentPath]);
 
-    return (
-        <nav
-            className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 py-3" : "bg-transparent py-4"
+  return (
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 py-3'
+          : 'bg-transparent py-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex-1 basis-0 flex items-center">
+            <a href="/" className="z-50">
+              <img
+                src="/logo_navarro_rect.png"
+                alt="Automóviles Navarro"
+                className="h-10 md:h-12 w-auto object-contain"
+              />
+            </a>
+          </div>
+
+          {/* Desktop Menu - Centered */}
+          <div className="hidden md:flex items-center justify-center gap-10 h-full flex-shrink-0 mx-4">
+            <a
+              className={`text-sm transition-all py-2 font-satoshi ${
+                currentPath === '/'
+                  ? 'text-[#004A99] font-bold underline decoration-2 underline-offset-8'
+                  : 'text-slate-700 font-bold hover:text-[#004A99]'
+              }`}
+              href="/"
+            >
+              Inicio
+            </a>
+            <a
+              className={`text-sm transition-all py-2 font-satoshi ${
+                currentPath === '/catalogo'
+                  ? 'text-[#004A99] font-bold underline decoration-2 underline-offset-8'
+                  : 'text-slate-700 font-bold hover:text-[#004A99]'
+              }`}
+              href="/catalogo"
+            >
+              Catálogo
+            </a>
+          </div>
+
+          {/* Spacer to keep links centered on desktop, balanced with logo side */}
+          <div className="flex-1 basis-0 hidden md:flex justify-end"></div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-slate-900 z-50 relative ml-auto"
+            aria-label="Toggle menu"
+          >
+            <span className="material-symbols-outlined text-3xl">
+              {isOpen ? 'close' : 'menu'}
+            </span>
+          </button>
+        </div>
+
+        {/* Mobile Menu Panel */}
+        {isOpen && (
+          <div className="md:hidden absolute left-0 right-0 top-full bg-white shadow-lg z-40 border-t border-slate-200">
+            <div className="px-4 py-6 space-y-4">
+              {/* Mobile Navigation Links */}
+              <a
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className={`block py-3 px-4 rounded-lg transition-all ${
+                  currentPath === '/'
+                    ? 'bg-blue-50 text-[#004A99] font-bold'
+                    : 'text-slate-700 hover:bg-slate-50'
                 }`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center">
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center z-50">
-                        <img
-                            src="/logo_nuevo_rect_png.png"
-                            alt="Automoción Navarro"
-                            className="h-10 md:h-14 w-auto object-contain mix-blend-multiply"
-                        />
-                    </Link>
-
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-10">
-                        <Link
-                            className={`text-sm transition-all ${location.pathname === "/"
-                                ? "text-[#004A99] font-bold underline underline-offset-4"
-                                : "text-slate-700 font-medium hover:text-[#004A99]"
-                                }`}
-                            to="/"
-                        >
-                            Inicio
-                        </Link>
-                        <Link
-                            className={`text-sm transition-all ${location.pathname === "/catalogo"
-                                ? "text-[#004A99] font-bold underline underline-offset-4"
-                                : "text-slate-700 font-medium hover:text-[#004A99]"
-                                }`}
-                            to="/catalogo"
-                        >
-                            Catálogo
-                        </Link>
-                    </div>
-
-                    {/* CTA Button */}
-                    <a
-                        href="https://wa.me/34683646930"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hidden md:inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-lg text-white bg-[#004A99] hover:bg-[#003d7a] transition-all shadow-md hover:shadow-lg gap-2"
-                    >
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.807-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.198-.198.347-.768.967-.94 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.151-.174.2-.298.3-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z" /></svg>
-                        Contacto
-                    </a>
-
-                    {/* Mobile Catalog Button - Always Visible */}
-                    <Link
-                        to="/catalogo"
-                        className="md:hidden flex items-center justify-center px-4 py-2 ml-auto mr-4 bg-[#004A99] text-white text-sm font-bold rounded-lg shadow-sm hover:bg-[#003d7a] transition-colors"
-                    >
-                        Catálogo
-                    </Link>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden text-slate-900 z-50 relative"
-                        aria-label="Toggle menu"
-                    >
-                        <span className="material-symbols-outlined text-3xl">
-                            {isOpen ? 'close' : 'menu'}
-                        </span>
-                    </button>
-                </div>
-
-                {/* Mobile Menu Panel */}
-                {isOpen && (
-                    <div className="md:hidden absolute left-0 right-0 top-full bg-white shadow-lg z-40 border-t border-slate-200">
-                        <div className="px-4 py-6 space-y-4">
-                            {/* Mobile Navigation Links */}
-                            <Link
-                                to="/"
-                                onClick={() => setIsOpen(false)}
-                                className={`block py-3 px-4 rounded-lg transition-all ${location.pathname === "/"
-                                    ? "bg-blue-50 text-[#004A99] font-bold"
-                                    : "text-slate-700 hover:bg-slate-50"
-                                    }`}
-                            >
-                                Inicio
-                            </Link>
-
-                            {/* Mobile Contact Button */}
-                            <a
-                                href="https://wa.me/34683646930"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => setIsOpen(false)}
-                                className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 text-slate-800 font-medium rounded-lg transition-all"
-                            >
-                                <span className="material-symbols-outlined text-[18px]">chat</span>
-                                Contacto
-                            </a>
-                        </div>
-                    </div>
-                )}
+              >
+                Inicio
+              </a>
+              <a
+                href="/catalogo"
+                onClick={() => setIsOpen(false)}
+                className={`block py-3 px-4 rounded-lg transition-all ${
+                  currentPath === '/catalogo'
+                    ? 'bg-blue-50 text-[#004A99] font-bold'
+                    : 'text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                Catálogo
+              </a>
             </div>
-        </nav>
-    );
+          </div>
+        )}
+      </div>
+    </nav>
+  );
 }
