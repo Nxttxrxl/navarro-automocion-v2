@@ -1,14 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.jsx';
-import Services from '../components/Services.jsx';
-import Testimonials from '../components/Testimonials.jsx';
-import Footer from '../components/Footer.jsx';  
---- 
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import Testimonials from '../components/Testimonials';
+import { getCollection } from 'astro:content';
+
+const allTestimonials = await getCollection('testimonials');
+const testimonialsData = allTestimonials[0].data; // Sacamos los datos del archivo reviews.json
+---
 
 <BaseLayout>
   <Hero client:load />
   <Services client:visible />
-  <Testimonials client:visible />
+  <Testimonials client:visible testis={testimonialsData} />
   <!-- <CTA client:load /> -->
 </BaseLayout>
